@@ -1,29 +1,635 @@
 ---
-title: "Hello, Quarto"
+title: "Sleep Disorder"
 format: html
 ---
 
-## Markdown
+## Sleep Health and Lifestyle Analysis Project
 
-Markdown is an easy to read and write text format:
+By:
 
-- It's _plain text_ so works well with version control
-- It can be **rendered** into HTML, PDF, and more
-- Learn more at: <https://quarto.org/docs/authoring/>
+1.  Amabel Nabila (455854)
 
-## Code Cell
+    -   Data Visualization and Analysis
 
-Here is a Python code cell:
+2.  Mustafa Ceyhun Vural (455158)
 
-```{python}
-import os
-os.cpu_count()
+    -   
+
+3.  Onur Durmus (455860)
+
+    -   
+
+4.  Zehra Usta (455847)
+
+    -   
+
+## Project Objective
+
+This project serves as the final assignment for the Reproducible Research course. It utilizes a dataset sourced from Kaggle and involves translating the code from Python to R. The aim of this project is to analyze the sleep health of individuals based on their respective lifestyles. Variables in this project include:
+
+-   Gender
+
+-   Age
+
+-   Occupation
+
+-   Sleep Duration
+
+-   Quality of Sleep
+
+-   Physical Activity Level
+
+-   Stress Level
+
+-   BMI Category
+
+-   Blood Pressure
+
+-   Heart Rate
+
+-   Daily Steps
+
+-   Sleep Disorder
+
+## Introduction
+
+Sleep disorders (or sleep-wake disorders) are difficulties with the quality, timing, and quantity of sleep that cause daily discomfort and impairment in functioning. Sleep-wake disturbances are frequently associated with physical or mental health illnesses such as depression, anxiety, or cognitive difficulties. There are various forms of sleep-wake disorders, with insomnia being the most frequent. Other sleep-wake problems include sleep apnea. Insomnia is a common sleep problem that makes it difficult to get asleep and remain asleep. Meanwhile, sleep apnea is a condition in which you stop breathing while asleep.
+
+## Library
+
+```{r}
+# Libraries used
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(patchwork)
+library(corrplot)
 ```
 
-## Equation
+## Data
 
-Use LaTeX to write equations:
+```{r}
+# Read the data
+data <- read.csv('Sleep_health_and_lifestyle_dataset.csv')
+```
 
-$$
-\chi' = \sum_{i=1}^n k_i s_i^2
-$$
+## Data Cleaning
+
+```{r}
+# Drop NA (if existed)
+data <- na.omit(data)
+
+# Standardize "Normal Weight" and "normal" to "Normal" in "BMI Category"
+data <- data %>%
+  mutate(BMI.Category = ifelse(BMI.Category %in% c("Normal Weight", "normal"), "Normal", BMI.Category))
+
+# View data cleaned
+data
+```
+
+```{r}
+# Split the Blood.Pressure column into two new columns and convert to numeric
+data <- data %>%
+  separate(col = Blood.Pressure, into = c("Systolic Pressure", "Diastolic Pressure"), sep = "/", convert = TRUE) %>%
+  mutate(`Systolic Pressure` = as.numeric(`Systolic Pressure`),
+         `Diastolic Pressure` = as.numeric(`Diastolic Pressure`))
+
+# Check the structure of the updated data frame
+str(data)
+```
+
+```{r}
+# Define a function to categorize blood pressure
+categorize_blood_pressure <- function(systolic, diastolic) {
+  if (is.na(systolic) | is.na(diastolic)) {
+    return(NA)
+  } else if (systolic < 120 & diastolic < 80) {
+    return('Optimal')
+  } else if (systolic <= 139 | diastolic <= 89) {
+    return('Normal')
+  } else if (systolic >= 140 | diastolic >= 90) {
+    return('Hypertension')
+  } else {
+    return('Other')
+  }
+}
+
+# Apply the categorization function to create the Blood Pressure Category column
+data <- data %>%
+  rowwise() %>%
+  mutate(`Blood.Pressure.Category` = categorize_blood_pressure(`Systolic Pressure`, `Diastolic Pressure`))
+
+# View the newest data
+data
+```
+
+## Data Visualization
+
+```{r}
+# Create a box plot for Age distribution
+age_boxplot <- ggplot(data, aes(x = '', y = Age)) + 
+  geom_boxplot() +
+  labs(title = "Age Distribution", y = "Age", x = "") +
+  theme_minimal()
+
+# Create a histogram for Age distribution
+age_histogram <- ggplot(data, aes(x = Age)) + 
+  geom_histogram(binwidth = 1, fill = "blue", color = "black") +
+  labs(title = "Age Distribution", x = "Age", y = "Count") +
+  theme_minimal()
+
+# Create a box plot for Quality of Sleep distribution
+quality_of_sleep_boxplot <- ggplot(data, aes(x = '', y = Quality.of.Sleep)) + 
+  geom_boxplot() +
+  labs(title = "Quality of Sleep Distribution", y = "Quality of Sleep", x = "") +
+  theme_minimal()
+
+# Create a histogram for Quality of Sleep distribution
+quality_of_sleep_histogram <- ggplot(data, aes(x = Quality.of.Sleep)) + 
+  geom_histogram(binwidth = 0.5, fill = "blue", color = "black") +
+  labs(title = "Quality of Sleep Distribution", x = "Quality of Sleep", y = "Count") +
+  theme_minimal()
+
+# Create a box plot for Physical Activity Level distribution
+physical_activity_boxplot <- ggplot(data, aes(x = '', y = Physical.Activity.Level)) + 
+  geom_boxplot() +
+  labs(title = "Physical Activity Level Distribution", y = "Physical Activity Level", x = "") +
+  theme_minimal()
+
+# Create a histogram for Physical Activity Level distribution
+physical_activity_histogram <- ggplot(data, aes(x = Physical.Activity.Level)) + 
+  geom_histogram(binwidth = 5, fill = "blue", color = "black") +
+  labs(title = "Physical Activity Level Distribution", x = "Physical Activity Level", y = "Count") +
+  theme_minimal()
+
+# Create a box plot for Stress Level distribution
+stress_level_boxplot <- ggplot(data, aes(x = '', y = Stress.Level)) + 
+  geom_boxplot() +
+  labs(title = "Stress Level Distribution", y = "Stress Level", x = "") +
+  theme_minimal()
+
+# Create a histogram for Stress Level distribution
+stress_level_histogram <- ggplot(data, aes(x = Stress.Level)) + 
+  geom_histogram(binwidth = 1, fill = "blue", color = "black") +
+  labs(title = "Stress Level Distribution", x = "Stress Level", y = "Count") +
+  theme_minimal()
+
+# Create a box plot for Heart Rate distribution
+heart_rate_boxplot <- ggplot(data, aes(x = '', y = Heart.Rate)) + 
+  geom_boxplot() +
+  labs(title = "Heart Rate Distribution", y = "Heart Rate", x = "") +
+  theme_minimal()
+
+# Create a histogram for Heart Rate distribution
+heart_rate_histogram <- ggplot(data, aes(x = Heart.Rate)) + 
+  geom_histogram(binwidth = 1, fill = "blue", color = "black") +
+  labs(title = "Heart Rate Distribution", x = "Heart Rate", y = "Count") +
+  theme_minimal()
+
+# Create a box plot for Daily Steps distribution
+daily_steps_boxplot <- ggplot(data, aes(x = '', y = Daily.Steps)) + 
+  geom_boxplot() +
+  labs(title = "Daily Steps Distribution", y = "Daily Steps", x = "") +
+  theme_minimal()
+
+# Create a histogram for Daily Steps distribution
+daily_steps_histogram <- ggplot(data, aes(x = Daily.Steps)) + 
+  geom_histogram(binwidth = 500, fill = "blue", color = "black") +
+  labs(title = "Daily Steps Distribution", x = "Daily Steps", y = "Count") +
+  theme_minimal()
+
+# Combine the plots into a single figure
+combined_plots <- (age_boxplot | age_histogram) / 
+  (quality_of_sleep_boxplot | quality_of_sleep_histogram) / 
+  (physical_activity_boxplot | physical_activity_histogram) / 
+  (stress_level_boxplot | stress_level_histogram) / 
+  (heart_rate_boxplot | heart_rate_histogram) / 
+  (daily_steps_boxplot | daily_steps_histogram) 
+
+# Define the layout of the combined plot
+combined_plot_layout <- combined_plots + 
+  plot_layout(ncol = 2)
+
+# Print the combined plot with the layout
+print(combined_plot_layout)
+```
+
+**Age Distribution**:
+
+The box plot indicates a fairly uniform age distribution, with a few outliers on the higher end. The histogram verifies this, displaying a fairly consistent distribution across age groups with a little rise in frequency at the middle age range.
+
+**Quality of Sleep Distribution**:
+
+The box plot shows that most values are concentrated in the center of the scale, implying that the majority of people have intermediate sleep quality, with occasional outliers indicating very good sleep quality. The histogram confirms this, demonstrating that most people report sleep quality in the center of the scale, with fewer reporting extremely high or terrible sleep quality.
+
+**Physical Activity Level Distribution:**
+
+The box plot for physical activity levels shows a broad range of values, with outliers at both the low and high ends. The histogram has a bimodal distribution, with peaks at both the low and high ends of the activity scale. This might imply that there are two separate groups in the population: one that is less active and one that is more active.
+
+**Stress Level Distribution**:
+
+According to the box plot, stress levels are typically close to the median, with no extreme outliers. The histogram shows a rather uniform distribution, with a tiny peak at higher stress levels.
+
+**Heart Rate Distribution:**
+
+The heart rate box plot displays a reasonably compact interquartile range, indicating that the majority of people have a resting heart rate within a restricted range, despite the presence of multiple outliers. The histogram shows a normal distribution with a peak at 70 beats per minute, which is typical for a resting heart rate in adults.
+
+**Daily Steps Distribution**:
+
+The box plot depicts a wide distribution, reflecting variation in the number of daily steps across individuals, with a few outliers suggesting extremely high step counts. The histogram shows that the majority of people have a daily step count on the low end of the scale, with fewer people reaching higher step counts.\
+
+```{r}
+# Calculate mean, median, and mode
+mean_sleep <- mean(data$Quality.of.Sleep, na.rm = TRUE)
+median_sleep <- median(data$Quality.of.Sleep, na.rm = TRUE)
+mode_sleep <- as.numeric(names(sort(table(data$Quality.of.Sleep), decreasing = TRUE)[1]))
+
+# Create the histogram and add lines for mean, median, and mode
+quality_of_sleep_plot <- ggplot(data, aes(x = Quality.of.Sleep)) +
+  geom_histogram(aes(y = ..count..), binwidth = 1, fill = "lightblue", color = "black") +
+  geom_vline(aes(xintercept = mean_sleep, color = "Mean"), linetype = "dashed", linewidth = 1) +
+  geom_vline(aes(xintercept = median_sleep, color = "Median"), linetype = "dotted", linewidth = 1) +
+  geom_vline(aes(xintercept = mode_sleep, color = "Mode"), linetype = "dotdash", linewidth = 1) +
+  scale_color_manual(name = "Statistics", values = c("Mean" = "red", "Median" = "green", "Mode" = "blue")) +
+  labs(title = "Quality of Sleep Distribution", x = "Quality of Sleep", y = "Count") +
+  theme_minimal() +
+  theme(
+    legend.position = "right",
+    plot.title = element_text(hjust = 0.5),
+    axis.title.x = element_text(vjust = -0.2),
+    axis.title.y = element_text(vjust = 1.2)
+  )
+
+# Print the plot
+print(quality_of_sleep_plot)
+```
+
+The majority of participants reported excellent quality of sleep (average scores of 7 and 8). The fact that the mode is higher than both the mean and the median indicates that, while some people may have poor sleep quality, this group is more likely to have good sleep.\
+
+```{r}
+# Column names
+quality_of_sleep_col <- "Quality.of.Sleep"
+grouping_cols <- c("Gender", "Occupation", "BMI.Category", "Blood.Pressure.Category", "Sleep.Disorder")
+
+plots <- list()
+
+
+for(grouping_col in grouping_cols) {
+  # Check if each group has at least two data points
+  valid_groups <- data %>%
+    group_by(!!sym(grouping_col)) %>%
+    filter(n() > 1) %>%
+    pull(!!sym(grouping_col)) %>%
+    unique()
+  
+  # Create the density plot only for valid groups
+  if (length(valid_groups) > 0) {
+    p <- ggplot(data %>% filter(!!sym(grouping_col) %in% valid_groups), 
+                aes_string(x = quality_of_sleep_col, fill = grouping_col)) +
+      geom_density(alpha = 0.7) +
+      theme_minimal() +
+      labs(title = paste("Quality of Sleep by", grouping_col))
+    plots[[grouping_col]] <- p
+  } else {
+    warning(paste("Not enough data to plot", grouping_col))
+  }
+}
+
+# Check your list of plots
+plots
+
+# To display the plots
+if (length(plots) > 0) {
+  library(gridExtra)
+  do.call(grid.arrange, c(plots, ncol = 2))
+}
+```
+
+The investigation reveals that there are distinct patterns and variances in sleep quality based on gender, employment, BMI, blood pressure, and the prevalence of sleeping disorders. Lifestyle and health circumstances appear to have a substantial impact on sleep quality. \
+
+```{r}
+# Boxplot for Age by Gender
+age_plot <- ggplot(data, aes(x = Gender, y = Age, fill = Gender)) +
+  geom_boxplot() +
+  labs(title = "1. How old are they?", y = "Age", x = "Gender") +
+  theme_minimal()
+
+# Boxplot for Sleep Duration by Gender
+sleep_duration_plot <- ggplot(data, aes(x = Gender, y = `Sleep.Duration`, fill = Gender)) +
+  geom_boxplot() +
+  labs(title = "2. How long do they sleep?", y = "Sleep.Duration", x = "Gender") +
+  theme_minimal()
+
+# Boxplot for Quality of Sleep by Gender
+quality_sleep_plot <- ggplot(data, aes(x = Gender, y = `Quality.of.Sleep`, fill = Gender)) +
+  geom_boxplot() +
+  labs(title = "3. How well do they sleep?", y = "Quality of Sleep", x = "Gender") +
+  theme_minimal()
+
+# Combine the plots into a single plot window
+library(gridExtra)
+grid.arrange(age_plot, sleep_duration_plot, quality_sleep_plot, ncol = 3)
+```
+
+**Age:**
+
+The age boxplot suggests that, on average, women in this dataset are older than men, as indicated by the higher median line for women in the box. Comparable ranges for the top and bottom of the box and the interquartile range (IQR, the height of the box) point to similar age variability for both genders. There are men and females that are both younger and older than the core age categories, according to the whiskers, which depict the dispersion of the remaining data. However, the range for females is larger, indicating greater ages.
+
+**Sleep Duration:**
+
+The boxplot illustrates that men have a somewhat shorter median sleep time than women. The identical IQRs for the two genders suggest that the middle 50% of people have similar sleep duration distributions. Males appear to have a significantly larger distribution of sleep time than females, as indicated by the slightly greater range for males.
+
+**Quality of Sleep:**
+
+The median line suggests that when it comes to sleep quality, women appear to report a little greater median quality of sleep than men. For both genders, the dispersion of values (IQR) is comparable, though. Females tend to have a greater general range than males, suggesting that the quality of their sleep is more variable, with some reporting extremely good and some very low quality.
+
+```{r}
+# Count the number of participants in each occupation
+occupation_count <- data %>%
+  group_by(Occupation) %>%
+  summarise(Participants = n_distinct(Person.ID))
+
+# Calculate the average quality of sleep for each occupation
+avg_quality_of_sleep <- data %>%
+  group_by(Occupation) %>%
+  summarise(AvgQualityOfSleep = mean(Quality.of.Sleep, na.rm = TRUE))
+
+# Number of Participants by Occupation
+occupation_count_plot <- ggplot(occupation_count, aes(x = reorder(Occupation, -Participants), y = Participants)) +
+  geom_bar(stat = "identity", fill = "skyblue") +
+  coord_flip() +
+  labs(title = "1. What are their occupations?", x = "Number of participants", y = "Occupation") +
+  theme_minimal()
+
+# Average Quality of Sleep by Occupation
+quality_sleep_plot <- ggplot(avg_quality_of_sleep, aes(x = reorder(Occupation, AvgQualityOfSleep), y = AvgQualityOfSleep)) +
+  geom_bar(stat = "identity", fill = "skyblue") +
+  coord_flip() +
+  labs(title = "2. Who sleeps better, and who worse?", x = "Avg Quality of Sleep", y = "Occupation") +
+  theme_minimal()
+
+# Print the plots
+print(occupation_count_plot)
+print(quality_sleep_plot)
+```
+
+**Occupational Distribution**:
+
+The distribution of participants among different vocations is seen in the first chart. The most common occupation is nursing, which is followed by engineering and medicine. In the sample, managers and sales reps are the least represented. This distribution may represent the true demographic composition of the pool from which participants were selected, or it may show the interest or availability of various occupations in taking part in the study.\
+
+**Average Quality of Sleep by Occupation**:
+
+The second graph displays the average sleep quality for various professions. Engineers seem to have the greatest average sleep quality, followed by accountants and attorneys. Conversely, scientists and sales people report the lowest average quality of sleep, which might be attributed to issues relating to their line of work or greater levels of stress related to their jobs. Despite the important importance of their work, doctors do not necessarily get better sleep than other professions, as seen by the fact that, despite their large representation in the dataset, their average sleep quality does not top the list.\
+
+```{r}
+# Count of participants by Sleep Disorder
+sleep_disorder_count <- ggplot(data, aes(x = Sleep.Disorder)) +
+  geom_bar(fill = "skyblue") +
+  labs(title = "1. How many suffer from Sleep Disorders?", x = "Sleep Disorder", y = "Number of Participants") +
+  theme_minimal()
+
+# Average Quality of Sleep by Sleep Disorder
+avg_sleep_quality_by_disorder <- ggplot(data, aes(x = Sleep.Disorder, y = Quality.of.Sleep)) +
+  geom_bar(stat = "summary", fun = "mean", fill = "skyblue") +
+  labs(title = "2. Who sleeps better?", x = "Sleep Disorder", y = "Avg Sleep Quality") +
+  theme_minimal()
+
+# Sleep quality boxplot by Sleep Disorder
+sleep_quality_boxplot <- ggplot(data, aes(x = Sleep.Disorder, y = Quality.of.Sleep)) +
+  geom_boxplot(fill = "skyblue") +
+  labs(title = "3. Sleep quality boxplot by Sleep Disorders", x = "Sleep.Disorder", y = "Sleep.Quality") +
+  theme_minimal()
+
+# Print the plots
+print(sleep_disorder_count)
+print(avg_sleep_quality_by_disorder)
+print(sleep_quality_boxplot)
+```
+
+```{r}
+# BMI Data Plotting
+# Count the number of participants in each BMI category
+bmi_counts <- data %>%
+  group_by(BMI.Category) %>%
+  summarise(Number.of.Participants = n())
+
+# Calculate the average quality of sleep for each BMI category
+bmi_quality <- data %>%
+  group_by(BMI.Category) %>%
+  summarise(Avg.Quality.of.Sleep = mean(Quality.of.Sleep, na.rm = TRUE))
+
+# Bar plot for BMI category participant count
+bmi_count_plot <- ggplot(bmi_counts, aes(x = BMI.Category, y = Number.of.Participants, fill = BMI.Category)) +
+  geom_bar(stat = "identity") +
+  labs(title = "1. What is your BMI category?", x = "BMI Category", y = "Number of participants") +
+  theme_minimal()
+
+# Bar plot for average quality of sleep by BMI category
+bmi_quality_plot <- ggplot(bmi_quality, aes(x = BMI.Category, y = Avg.Quality.of.Sleep, fill = BMI.Category)) +
+  geom_bar(stat = "identity") +
+  labs(title = "2. Who sleeps better?", x = "BMI Category", y = "Avg Quality of Sleep") +
+  theme_minimal()
+
+# Boxplot for quality of sleep by BMI category
+bmi_quality_boxplot <- ggplot(data, aes(x = BMI.Category, y = Quality.of.Sleep, fill = BMI.Category)) +
+  geom_boxplot() +
+  labs(title = "3. Sleep quality boxplot by BMI Category", x = "BMI Category", y = "Quality of Sleep") +
+  theme_minimal()
+
+# Display the plots
+bmi_count_plot
+bmi_quality_plot
+bmi_quality_boxplot
+```
+
+```{r}
+# Blood Pressure Data Plotting
+# Repeat the same process for blood pressure data
+bp_counts <- data %>%
+  group_by(Blood.Pressure.Category) %>%
+  summarise(Number.of.Participants = n())
+
+bp_quality <- data %>%
+  group_by(Blood.Pressure.Category) %>%
+  summarise(Avg.Quality.of.Sleep = mean(Quality.of.Sleep, na.rm = TRUE))
+
+bp_count_plot <- ggplot(bp_counts, aes(x = Blood.Pressure.Category, y = Number.of.Participants, fill = Blood.Pressure.Category)) +
+  geom_bar(stat = "identity") +
+  labs(title = "1. How is your Blood Pressure level?", x = "Blood Pressure Category", y = "Number of participants") +
+  theme_minimal()
+
+bp_quality_plot <- ggplot(bp_quality, aes(x = Blood.Pressure.Category, y = Avg.Quality.of.Sleep, fill = Blood.Pressure.Category)) +
+  geom_bar(stat = "identity") +
+  labs(title = "2. Who sleeps better?", x = "Blood Pressure Category", y = "Avg Quality of Sleep") +
+  theme_minimal()
+
+bp_quality_boxplot <- ggplot(data, aes(x = Blood.Pressure.Category, y = Quality.of.Sleep, fill = Blood.Pressure.Category)) +
+  geom_boxplot() +
+  labs(title = "3. Sleep Quality boxplot by Blood Pressure Category", x = "Blood Pressure Category", y = "Quality of Sleep") +
+  theme_minimal()
+
+# Display the plot
+bp_count_plot
+bp_quality_plot
+bp_quality_boxplot
+```
+
+```{r}
+# Select only the numeric columns from the data
+numeric_data <- data[sapply(data, is.numeric)]
+
+# Calculating the correlation matrix
+cor_matrix <- cor(numeric_data, use = "complete.obs")
+
+# Create the correlation heatmap
+corrplot(cor_matrix, method = "color", type = "upper", 
+         tl.col = "black", tl.srt = 45,
+         diag = FALSE)  
+
+```
+
+```{r}
+# Scatter plot of Sleep Duration vs Quality of Sleep
+plot1 <- ggplot(data, aes(x = Quality.of.Sleep, y = Sleep.Duration)) +
+  geom_point() +
+  geom_smooth(method = lm, se = TRUE) +
+  labs(title = "Long Rest = Good Rest",
+       x = "Quality of Sleep",
+       y = "Sleep Duration (hours)")
+
+# Scatter plot of Stress Level vs Quality of Sleep
+plot2 <- ggplot(data, aes(x = Quality.of.Sleep, y = Stress.Level)) +
+  geom_point() +
+  geom_smooth(method = lm, se = TRUE) +
+  labs(title = "More Stress = Bad Rest",
+       x = "Quality of Sleep",
+       y = "Stress Level")
+
+#Show the plots
+plot1
+plot2
+```
+
+```{r}
+# Scatter plot of Physical Activity Level vs Sleep Quality
+plot3 <- ggplot(data, aes(x = Quality.of.Sleep, y = Physical.Activity.Level)) +
+  geom_point() +
+  geom_smooth(method = lm, se = TRUE) +
+  labs(title = "A: Sleep quality based on physical activity",
+       x = "Sleep Quality",
+       y = "Physical Activity Level (minutes)")
+
+# Scatter plot of Age vs Sleep Duration
+plot4 <- ggplot(data, aes(x = Age, y = Sleep.Duration)) +
+  geom_point() +
+  geom_smooth(method = lm, se = TRUE) +
+  labs(title = "B: The older you get, the less you sleep",
+       x = "Age",
+       y = "Sleep Duration (hours)")
+
+# Scatter plot of Heart Rate vs Sleep Duration
+plot5 <- ggplot(data, aes(x = Heart.Rate, y = Sleep.Duration)) +
+  geom_point() +
+  geom_smooth(method = lm, se = TRUE) +
+  labs(title = "C: Quickest Heartbeat, Fewest Sleep",
+       x = "Heart Rate",
+       y = "Sleep Duration (hours)")
+
+# Scatter plot of Physical Activity vs Sleep Duration
+plot6 <- ggplot(data, aes(x = Physical.Activity.Level, y = Sleep.Duration)) +
+  geom_point() +
+  geom_smooth(method = lm, se = TRUE) +
+  labs(title = "D: Engaging in physical exercise can facilitate sleep",
+       x = "Physical Activity",
+       y = "Sleep Duration (hours)")
+
+#Show the plots
+plot3
+plot4
+plot5
+plot6
+```
+
+```{r}
+# Scatter plot of Heartbeat vs Stress Lvevel
+plot7 <- ggplot(data, aes(x = Heart.Rate, y = Stress.Level)) +
+  geom_point() +
+  geom_smooth(method = lm, se = TRUE) +
+  labs(title = "A: Increased stress leads to quicker heartbeats",
+       x = "Heartbeat",
+       y = "Stress Level")
+
+# Scatter plot of Heartbeat vs Quality of Sleep
+plot8 <- ggplot(data, aes(x = Heart.Rate, y = Quality.of.Sleep)) +
+  geom_point() +
+  geom_smooth(method = lm, se = TRUE) +
+  labs(title = "B: Faster pulse, worse quality of sleep",
+       x = "Heartbeat",
+       y = "Quality of Sleep")
+
+#Show the plots
+plot7
+plot8
+```
+
+```{r}
+# Scatter plot of Sleep Quality based on Sleep Quality
+plot9 <- ggplot(data, aes(x = Physical.Activity.Level, y = Quality.of.Sleep)) +
+  geom_point() +
+  geom_smooth(method = lm, se = TRUE) +
+  labs(title = "A: Sleep Quality based on Sleep Quality",
+       x = "Physical Activity",
+       y = "Sleep Quality")
+
+# Scatter plot of Sleep Duration based on Sleep Quality
+plot10 <- ggplot(data, aes(x = Sleep.Duration, y = Quality.of.Sleep)) +
+  geom_point() +
+  geom_smooth(method = lm, se = TRUE) +
+  labs(title = "B: Sleep Duration based on Sleep Quality",
+       x = "Heartbeat",
+       y = "Quality of Sleep")
+
+#Show the plots
+plot9
+plot10
+```
+
+```{r}
+# Scatter plot of Stress Level based on Physical Activity
+plot11 <- ggplot(data, aes(x = Stress.Level, y = Physical.Activity.Level)) +
+  geom_point() +
+  geom_smooth(method = lm, se = TRUE) +
+  labs(title = "Stress Level based on Physical Activity",
+       x = "Physical Activity",
+       y = "Sleep Quality")
+
+#Show the plot
+plot11
+```
+
+\
+
+\
+
+
+
+
+
+
+
+
+
+
+## References
+
+-   https://www.psychiatry.org/patients-families/sleep-disorders/what-are-sleep-disorders#:\~:text=Sleep%20disorders%20(or%20sleep%2Dwake,distress%20and%20impairment%20in%20functioning.
+
+-   https://www.mayoclinic.org/diseases-conditions/insomnia/symptoms-causes/syc-20355167#:\~:text=Insomnia%20is%20a%20common%20sleep,level%20and%20affect%20your%20mood.
+
+-   https://my.clevelandclinic.org/health/diseases/8718-sleep-apnea
+
+-   https://www.kaggle.com/code/alessandrogiacometti/sleep-health-analysis-how-to-sleep-better
+
+-   https://www.salute.gov.it/portale/alleanzaCardioCerebrovascolari/dettaglioSchedeAlleanzaCardioCerebrovascolari.jsp?lingua=italiano&id=18&area=Alleanza%20italiana%20per%20le%20malattie%20cardio-cerebrovascolari&menu=malattie#:\~:text=Quando%20i%20valori%20pressori%20di,si%20parla%20di%20ipertensione%20arteriosa.
+
+## 
