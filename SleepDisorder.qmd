@@ -306,7 +306,7 @@ if (length(plots) > 0) {
 }
 ```
 
-The investigation reveals that there are distinct patterns and variances in sleep quality based on gender, employment, BMI, blood pressure, and the prevalence of sleeping disorders. Lifestyle and health circumstances appear to have a substantial impact on sleep quality. \
+The investigation reveals that there are distinct patterns and variances in sleep quality based on gender, employment, BMI, blood pressure, and the prevalence of sleeping disorders. Lifestyle and health circumstances appear to have a substantial impact on sleep quality.\
 
 ```{r}
 # Boxplot for Age by Gender
@@ -706,7 +706,9 @@ p1 <- ggplot(data, aes(x = Age, y = Sleep.Duration, color = BMI.Category)) +
   theme_minimal()
 
 ggMarginal(p1, type = "histogram")
+```
 
+```{r}
 # Scatter plot of Quality of Sleep vs Age with BMI categories
 p2 <- ggplot(data, aes(x = Age, y = Quality.of.Sleep, color = BMI.Category)) +
   geom_point() +
@@ -714,7 +716,9 @@ p2 <- ggplot(data, aes(x = Age, y = Quality.of.Sleep, color = BMI.Category)) +
   theme_minimal()
 
 ggMarginal(p2, type = "histogram")
+```
 
+```{r}
 # Scatter plot of Quality of Sleep vs HeartRate with Sleep Disorder categories
 p3 <- ggplot(data, aes(x = Heart.Rate, y = Quality.of.Sleep, color = Sleep.Disorder)) +
   geom_point() +
@@ -722,7 +726,9 @@ p3 <- ggplot(data, aes(x = Heart.Rate, y = Quality.of.Sleep, color = Sleep.Disor
   theme_minimal()
 
 ggMarginal(p3, type = "histogram")
+```
 
+```{r}
 # Scatter plot of Quality of Sleep vs Stress Level with Sleep Disorder categories
 p4 <- ggplot(data, aes(x = Stress.Level, y = Quality.of.Sleep, color = Sleep.Disorder)) +
   geom_point() +
@@ -730,6 +736,10 @@ p4 <- ggplot(data, aes(x = Stress.Level, y = Quality.of.Sleep, color = Sleep.Dis
   theme_minimal()
 
 ggMarginal(p4, type = "histogram")
+
+```
+
+```{r}
 
 # Scatter plot of Quality of Sleep vs Blood Preassure
 p5 <- ggplot(data, aes(x = Heart.Rate, y = Quality.of.Sleep, color = Blood.Pressure.Category)) +
@@ -743,15 +753,6 @@ ggMarginal(p5, type = "histogram")
 \
 
 \
-
-
-
-
-
-
-
-
-
 
 ## References
 
