@@ -64,6 +64,7 @@ library(tidyr)
 library(ggplot2)
 library(patchwork)
 library(corrplot)
+library(ggExtra)
 ```
 
 ## Data
@@ -406,6 +407,18 @@ print(avg_sleep_quality_by_disorder)
 print(sleep_quality_boxplot)
 ```
 
+**Prevalence of Sleep Disorders**:
+
+The bar graph displays the number of individuals with various sleep problems. The majority of individuals do not appear to have a sleep issue, with insomnia being the most common and sleep apnea being the least prevalent.
+
+**Average Sleep Quality by Sleep Disorder**:
+
+This bar graph shows that persons without a sleep issue had the highest average sleep quality score, indicating higher overall sleep quality. Individuals with insomnia and sleep apnea have lower scores, indicating worse sleep quality, which is consistent with the nature of these diseases.\
+
+**Sleep Quality Distribution by Sleep Disorder**:
+
+The boxplot depicts the distribution of sleep quality across each sleep disorder category. Individuals without a sleep issue had the greatest median sleep quality. Participants with insomnia have the lowest median sleep quality and a larger interquartile range (IQR), indicating greater variability in their sleep quality. The 'Sleep Apnea' group has a greater median sleep quality than the 'Insomnia' group, but it also has a wide IQR, indicating variability among persons with this disease.\
+
 ```{r}
 # BMI Data Plotting
 # Count the number of participants in each BMI category
@@ -442,6 +455,18 @@ bmi_quality_plot
 bmi_quality_boxplot
 ```
 
+**BMI Category Distribution**:
+
+The first graphic is a bar graph that depicts the distribution of participants across various BMI groups. The bulk of the participants had a 'Normal' BMI, with a much lower proportion in the 'Overweight' group and very few in the 'Obese' category.
+
+**Average Quality of Sleep by BMI Category**:
+
+The second figure depicts the average sleep quality for each BMI group, as measured on a scale (not stated, but likely 1 to 10 or comparable). persons with a 'Normal' BMI report the best average quality of sleep, followed by 'Overweight' persons, who report somewhat less, and 'Obese' individuals, who report the lowest average quality of sleep. However, the differences across the groups appear to be small.
+
+**Sleep Quality Boxplot by BMI Category**:
+
+The final graphic is a boxplot that shows a more comprehensive distribution of sleep quality ratings within each BMI group. The 'Normal' BMI group has the greatest median sleep quality but also includes an outlier with a very poor sleep quality score. The 'Obese' category has a broad interquartile range, indicating that sleep quality varies more among people in this group. The 'Overweight' category has a median sleep quality that is lower than the 'Normal' but higher than the 'Obese' category, and its interquartile range is shorter than in the 'Obese' group, indicating greater consistency in sleep quality among 'Overweight' individuals.\
+
 ```{r}
 # Blood Pressure Data Plotting
 # Repeat the same process for blood pressure data
@@ -474,6 +499,18 @@ bp_quality_plot
 bp_quality_boxplot
 ```
 
+**Blood Pressure Level Distribution**:
+
+The bar chart depicts the distribution of blood pressure categories among the participants. The biggest group is those with normal blood pressure, followed by those with hypertension, and the smallest group is made up of people with ideal blood pressure. This shows that the majority of people have normal blood pressure.\
+
+**Average Sleep Quality by Blood Pressure Category**:
+
+The bar chart that compares the average sleep quality of the same blood pressure groups. Interestingly, individuals with ideal blood pressure had the best average sleep quality, followed by those with normal blood pressure, and those with hypertension have the lowest average sleep quality. This suggests a possible link between reduced blood pressure and improved sleep quality.\
+
+**Sleep Quality Boxplot by Blood Pressure Category**:
+
+The boxplot that shows how sleep quality varies across each blood pressure group. The boxplot for hypertension exhibits a broader range and higher median sleep quality scores than the boxplot for normal blood pressure, which is more compacted and has a little lower median. The ideal blood pressure group had a higher median than the other two, but a few outliers suggest that some people with perfect blood pressure nevertheless report poor sleep quality. This graph illustrates that, while people with ideal blood pressure had superior average sleep quality, there is variation within each category.\
+
 ```{r}
 # Select only the numeric columns from the data
 numeric_data <- data[sapply(data, is.numeric)]
@@ -487,6 +524,16 @@ corrplot(cor_matrix, method = "color", type = "upper",
          diag = FALSE)  
 
 ```
+
+-   The scale on the right represents the range of correlation coefficients from -1 to 1.
+
+-   A coefficient near to 1 indicates a significant positive correlation, which means that when one variable grows, so does the other.
+
+-   A coefficient around -1 indicates a significant negative correlation, implying that when one variable grows, the other tends to decrease.
+
+-   A coefficient around zero indicates little or no linear association between the variables.
+
+    Thus, "Age" and "Person.ID" exhibit a substantial negative connection, which is uncommon and may imply that "Person.ID" is quantitatively linked to age. However, an ID should not have any association with age unless it is arbitrarily assigned based on age. "Quality of Sleep" and "Physical Activity Level" show a significant positive link, implying that persons who engage in more physical exercise may have better sleep quality. "Stress Level" appears to have a modest positive connection with "Systolic Pressure" and "Diastolic Pressure," showing that more stress may be connected with greater blood pressure. "Daily Steps" has a substantial negative association with "Heart Rate," implying that those who take more daily steps may have a lower resting heart rate, which is an indication of excellent cardiovascular health.\
 
 ```{r}
 # Scatter plot of Sleep Duration vs Quality of Sleep
@@ -510,6 +557,14 @@ plot1
 plot2
 ```
 
+**Long Rest = Good Rest**:
+
+The first figure demonstrates a favorable relationship between sleep length and sleep quality. Sleep duration increases as sleep quality scores rise, implying that those who report higher sleep quality sleep for longer periods of time. The data points are densely packed around the trend line, particularly when sleep quality improves, demonstrating a significant correlation between these two factors.\
+
+**More Stress = Bad Rest**:
+
+The second figure demonstrates a negative link between stress and sleep quality. As stress levels rise, the quality of sleep declines, implying that increased stress is linked to decreased sleep quality. The trend line slopes lower across the plot, and the data points, albeit slightly dispersed, follow the downward trend, confirming the negative link between stress and sleep quality.\
+
 ```{r}
 # Scatter plot of Physical Activity Level vs Sleep Quality
 plot3 <- ggplot(data, aes(x = Quality.of.Sleep, y = Physical.Activity.Level)) +
@@ -523,7 +578,7 @@ plot3 <- ggplot(data, aes(x = Quality.of.Sleep, y = Physical.Activity.Level)) +
 plot4 <- ggplot(data, aes(x = Age, y = Sleep.Duration)) +
   geom_point() +
   geom_smooth(method = lm, se = TRUE) +
-  labs(title = "B: The older you get, the less you sleep",
+  labs(title = "B: The older you get, the more you sleep",
        x = "Age",
        y = "Sleep Duration (hours)")
 
@@ -550,6 +605,22 @@ plot5
 plot6
 ```
 
+**Sleep Quality Based on Physical Activity**:
+
+There appears to be a favorable relationship between physical exercise (in minutes) and sleep quality. The sleep quality score improves with increased physical activity. The shaded region reflects the confidence interval, which indicates some uncertainty around the trend line but overall suggests that more physical activity is connected with higher sleep quality.\
+
+**Sleep Duration and Age**:
+
+The graph shows a positive link between age and sleep length (in hours). Sleep duration rises with age, suggesting that older people sleep more rather than less. However, the distribution of data points indicates that there is significant variability and that other factors may possibly play a role.\
+
+**Sleep Duration and Heart Rate**:
+
+This graph indicates a negative association between heart rate and sleep duration. It suggests that a greater resting heart rate leads to shorter sleep lengths. The trend line falls as the heart rate rises, corroborating this theory.\
+
+**Sleep Duration and Physical Activity**:
+
+This plot demonstrates a beneficial relationship between physical activity and sleep length. As physical activity increases, so does sleep length, supporting the title's claim that physical exercise can help you sleep longer.\
+
 ```{r}
 # Scatter plot of Heartbeat vs Stress Lvevel
 plot7 <- ggplot(data, aes(x = Heart.Rate, y = Stress.Level)) +
@@ -572,12 +643,20 @@ plot7
 plot8
 ```
 
+**Increased stress leads to quicker heartbeats**:
+
+This scatter plot with a regression line demonstrates a positive link between heart rate and stress level. As the heart rate increases, so does the stress level. The shaded region surrounding the regression line represents the prediction's confidence interval, indicating that while there is some uncertainty in the connection, the overall trend is positive.\
+
+**Faster pulse, worse quality of sleep**:
+
+This scatter figure, which includes a regression line, shows a negative link between heart rate and sleep quality. As the heart rate rises, the quality of sleep appears to deteriorate. The confidence interval is likewise shaded, indicating variability while maintaining an overall decreasing trend.\
+
 ```{r}
-# Scatter plot of Sleep Quality based on Sleep Quality
+# Scatter plot of Physical Activity based on Sleep Quality
 plot9 <- ggplot(data, aes(x = Physical.Activity.Level, y = Quality.of.Sleep)) +
   geom_point() +
   geom_smooth(method = lm, se = TRUE) +
-  labs(title = "A: Sleep Quality based on Sleep Quality",
+  labs(title = "A: Physical Activity based on Sleep Quality",
        x = "Physical Activity",
        y = "Sleep Quality")
 
@@ -586,7 +665,7 @@ plot10 <- ggplot(data, aes(x = Sleep.Duration, y = Quality.of.Sleep)) +
   geom_point() +
   geom_smooth(method = lm, se = TRUE) +
   labs(title = "B: Sleep Duration based on Sleep Quality",
-       x = "Heartbeat",
+       x = "Sleep Duration",
        y = "Quality of Sleep")
 
 #Show the plots
@@ -594,17 +673,71 @@ plot9
 plot10
 ```
 
+**Sleep Quality based on Physical Activity:**
+
+This scatter plot demonstrates a favorable correlation between physical exercise and sleep quality. As physical activity levels rise, sleep quality appears to improve lightly.
+
+**Sleep Quality based on Heartbeat:**
+
+This graph illustrates a positive correlation between sleep duration and sleep quality.
+
 ```{r}
 # Scatter plot of Stress Level based on Physical Activity
-plot11 <- ggplot(data, aes(x = Stress.Level, y = Physical.Activity.Level)) +
+plot11 <- ggplot(data, aes(x = Physical.Activity.Level , y = Stress.Level)) +
   geom_point() +
   geom_smooth(method = lm, se = TRUE) +
-  labs(title = "Stress Level based on Physical Activity",
-       x = "Physical Activity",
-       y = "Sleep Quality")
+  labs(title = "Physical Activity Level based on Stress Level",
+       x = "Physical Activity Level",
+       y = "Stress Level")
 
 #Show the plot
 plot11
+```
+
+**Stress Level based on Physical Activity:**
+
+This scatter plot depicts the association between physical activity (x-axis) and stress level (y-axis).\
+
+```{r}
+# Scatter plot of Sleep Duration vs Age with BMI categories
+p1 <- ggplot(data, aes(x = Age, y = Sleep.Duration, color = BMI.Category)) +
+  geom_point() +
+  ggtitle("Sleep Duration vs Age with BMI categories") +
+  theme_minimal()
+
+ggMarginal(p1, type = "histogram")
+
+# Scatter plot of Quality of Sleep vs Age with BMI categories
+p2 <- ggplot(data, aes(x = Age, y = Quality.of.Sleep, color = BMI.Category)) +
+  geom_point() +
+  ggtitle("Quality of Sleep vs Age with BMI categories") +
+  theme_minimal()
+
+ggMarginal(p2, type = "histogram")
+
+# Scatter plot of Quality of Sleep vs HeartRate with Sleep Disorder categories
+p3 <- ggplot(data, aes(x = Heart.Rate, y = Quality.of.Sleep, color = Sleep.Disorder)) +
+  geom_point() +
+  ggtitle("Quality of Sleep vs Heart Rate with Sleep Disorder") +
+  theme_minimal()
+
+ggMarginal(p3, type = "histogram")
+
+# Scatter plot of Quality of Sleep vs Stress Level with Sleep Disorder categories
+p4 <- ggplot(data, aes(x = Stress.Level, y = Quality.of.Sleep, color = Sleep.Disorder)) +
+  geom_point() +
+  ggtitle("Sleep vs Stress Level with Sleep Disorder") +
+  theme_minimal()
+
+ggMarginal(p4, type = "histogram")
+
+# Scatter plot of Quality of Sleep vs Blood Preassure
+p5 <- ggplot(data, aes(x = Heart.Rate, y = Quality.of.Sleep, color = Blood.Pressure.Category)) +
+  geom_point() +
+  ggtitle("Heartbeat vs Blood Pressure") +
+  theme_minimal()
+
+ggMarginal(p5, type = "histogram")
 ```
 
 \
