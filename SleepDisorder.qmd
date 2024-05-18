@@ -65,6 +65,8 @@ library(ggplot2)
 library(patchwork)
 library(corrplot)
 library(ggExtra)
+library(gbm)
+library(caret)
 ```
 
 ## Data
@@ -749,6 +751,28 @@ p5 <- ggplot(data, aes(x = Heart.Rate, y = Quality.of.Sleep, color = Blood.Press
 
 ggMarginal(p5, type = "histogram")
 ```
+
+## Machine Learning
+
+**Linear Regression**
+
+
+**Gradient Boosting Machine**
+```{r}
+# Preparing the data
+# Converting characters to factors
+data_GBM<-data
+data_GBM$Gender <- as.factor(data$Gender)
+data_GBM$Occupation <- as.factor(data$Occupation)
+data_GBM$BMI.Category <- as.factor(data$BMI.Category)
+data_GBM$Sleep.Disorder <- as.factor(data$Sleep.Disorder)
+data_GBM$Blood.Pressure.Category <- as.factor(data$Blood.Pressure.Category)
+
+summary(data_GBM)
+
+
+```
+
 
 \
 
