@@ -760,7 +760,7 @@ ggMarginal(p5, type = "histogram")
 **Gradient Boosting Machine**
 ```{r}
 # Splitting the data into training (70%) and testing (30%) sets
-set.seed(123) 
+set.seed(455) 
 trainIndex <- createDataPartition(data$`Quality.of.Sleep`, p = 0.7, list = FALSE)
 trainData <- data_GBM[trainIndex, ]
 testData <- data_GBM[-trainIndex, ]
@@ -779,14 +779,14 @@ grid <- expand.grid(
 )
 
 
-# Set up the training control with 5-fold cross-validation
+# Setting up the training control with 5-fold cross-validation
 train_control <- trainControl(method = "cv", number = 5)
 ```
 
 
 ```{r}
-# Train the model using the grid search
-set.seed(123) # For reproducibility
+# Training the model using the grid search
+set.seed(455) # For reproducibility
 gbm_tuned <- train(
   `Quality.of.Sleep` ~ `Sleep.Duration` + Age + `Physical.Activity.Level` + `Stress.Level` + `Heart.Rate` + `Daily.Steps`,
   data = trainData,
@@ -796,11 +796,11 @@ gbm_tuned <- train(
   verbose = FALSE
 )
 
-# Print the best model
+# Printing the best model
 print(gbm_tuned$bestTune)
 print(gbm_tuned)
 
-# Plot the results
+# Ploting the results
 plot(gbm_tuned)
 ```
 
@@ -810,10 +810,10 @@ summary(gbm_tuned)
 ```
 
 ```{r}
-# Predict on the test set
+# Predicting on the test set
 predictions <- predict(gbm_tuned, newdata = testData)
 
-# Evaluate the model performance
+# Evaluating the model performance
 rmse <- sqrt(mean((testData$`Quality.of.Sleep` - predictions)^2))
 r_squared <- 1 - sum((testData$`Quality.of.Sleep` - predictions)^2) / sum((testData$`Quality.of.Sleep` - mean(testData$`Quality.of.Sleep`))^2)
 
