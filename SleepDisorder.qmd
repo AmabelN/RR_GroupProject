@@ -67,6 +67,8 @@ library(corrplot)
 library(ggExtra)
 library(gbm)
 library(caret)
+library(caTools)  
+library(stats) 
 ```
 
 ## Data
@@ -755,7 +757,107 @@ ggMarginal(p5, type = "histogram")
 ## Machine Learning
 
 **Linear Regression**
+```{r}
+# Response and predictor variables
+y <- data$Quality.of.Sleep
+X <- data %>% select(Sleep.Duration, Age, Physical.Activity.Level, Stress.Level, Heart.Rate, Daily.Steps)
 
+# Add a constant column for the intercept
+X <- cbind(Intercept = 1, X)
+
+# Split the data into training and testing sets (70% train, 30% test)
+set.seed(42)  # For reproducibility
+split <- sample.split(y, SplitRatio = 0.7)
+X_train <- subset(X, split == TRUE)
+X_test <- subset(X, split == FALSE)
+y_train <- subset(y, split == TRUE)
+y_test <- subset(y, split == FALSE)
+
+# Fit the OLS model to the training data
+model <- lm(y_train ~ ., data = as.data.frame(X_train))
+summary(model)
+```
+**Interpretation of Model Summary**:
+
+Output indicates that the predictors Sleep Duration, Age, Stress Level, Heart Rate, and Daily Steps are significant, while Physical Activity Level is not. The model's high R-squared (0.9152) and Adjusted R-squared (0.9133) values indicate a strong fit. \
+
+```{r}
+```
+```{r}
+# Remove Physical Activity Level from the predictors
+X <- data %>% select(Age, Sleep.Duration, Stress.Level, Heart.Rate, Daily.Steps)
+X <- cbind(Intercept = 1, X)
+
+# Split the data into training and testing sets (70% train, 30% test)
+set.seed(42)  # For reproducibility
+split <- sample.split(y, SplitRatio = 0.7)
+X_train <- subset(X, split == TRUE)
+X_test <- subset(X, split == FALSE)
+y_train <- subset(y, split == TRUE)
+y_test <- subset(y, split == FALSE)
+
+# Fit the new OLS model to the training data
+model_refined <- lm(y_train ~ ., data = as.data.frame(X_train))
+summary(model_refined)
+
+```
+```{r}
+# Define MAE function
+mae <- function(y, pred) {
+  return(round(mean(abs(y - pred)), 2))
+}
+
+# Predictions on training data with refined model
+pred_train_refined <- predict(model_refined, newdata = as.data.frame(X_train))
+
+# MAE for training data with refined model
+naive_mae_train <- mae(y_train, mean(y_train))
+model_mae_train_refined <- mae(y_train, pred_train_refined)
+
+print(paste('Naïve Training MAE:', naive_mae_train))
+print(paste('Training MAE with refined model:', model_mae_train_refined))
+
+# Plotting distribution of errors for refined model
+ggplot(data.frame(error = y_train - pred_train_refined), aes(x = error)) +
+  geom_histogram(binwidth = 0.1, fill = 'blue', color = 'black') +
+  ggtitle("Distribution of errors (train) with refined model")
+
+ggplot(data.frame(abs_error = abs(y_train - pred_train_refined)), aes(x = abs_error)) +
+  geom_histogram(binwidth = 0.1, fill = 'blue', color = 'black') +
+  ggtitle("Distribution of absolute errors (train) with refined model")
+
+# Predictions on test data with refined model
+pred_test_refined <- predict(model_refined, newdata = as.data.frame(X_test))
+
+# MAE for test data with refined model
+naive_mae_test <- mae(y_test, mean(y_test))
+model_mae_test_refined <- mae(y_test, pred_test_refined)
+
+print(paste('Naïve Testing MAE:', naive_mae_test))
+print(paste('Testing MAE with refined model:', model_mae_test_refined))
+
+# Plotting distribution of errors for refined model
+ggplot(data.frame(error = y_test - pred_test_refined), aes(x = error)) +
+  geom_histogram(binwidth = 0.1, fill = 'blue', color = 'black') +
+  ggtitle("Distribution of errors (test) with refined model")
+
+ggplot(data.frame(abs_error = abs(y_test - pred_test_refined)), aes(x = abs_error)) +
+  geom_histogram(binwidth = 0.1, fill = 'blue', color = 'black') +
+  ggtitle("Distribution of absolute errors (test) with refined model")
+
+```
+**Improved Model **:
+
+By removing an insignificant predictor (Physical.Activity.Level), multicollinearity issues are likely reduced, resulting in more reliable estimates of the coefficients.
+The refined model maintains a high R-squared (0.9152) and Adjusted R-squared (0.9136), indicating that the model still explains a significant portion of the variance in the response variable.
+The F-statistic is very high and significant, suggesting that the overall model is a good fit.\
+
+**Mean Absolute Error **:
+
+The Training MAE for the refined model (0.27) is much lower than the Naïve Training MAE (1.05), indicating that the model fits the training data well.
+The Testing MAE for the refined model (0.31) is also lower than the Naïve Testing MAE (1.03), showing good predictive performance on the test data.
+The similarity between Training MAE (0.27) and Testing MAE (0.31) suggests that the model does not overfit the training data and generalizes well to unseen data.
+.\
 
 **Gradient Boosting Machine**
 In this part of the project, we implemented a Gradient Boosting Machine (GBM) model to predict the quality of sleep based on various factors such as sleep duration, age, physical activity level, stress level, heart rate, and daily steps. We began by defining a grid of hyperparameters to tune the model, including the number of trees, interaction depth, shrinkage (learning rate), and minimum observations in the terminal nodes. We set up a 5-fold cross-validation to robustly evaluate the model's performance and prevent overfitting. The data was split into training (70%) and testing (30%) sets, and the GBM model was trained using the defined hyperparameters and cross-validation settings.
