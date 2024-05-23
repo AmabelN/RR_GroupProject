@@ -758,12 +758,15 @@ ggMarginal(p5, type = "histogram")
 
 
 **Gradient Boosting Machine**
+In this part of the project, we implemented a Gradient Boosting Machine (GBM) model to predict the quality of sleep based on various factors such as sleep duration, age, physical activity level, stress level, heart rate, and daily steps. We began by defining a grid of hyperparameters to tune the model, including the number of trees, interaction depth, shrinkage (learning rate), and minimum observations in the terminal nodes. We set up a 5-fold cross-validation to robustly evaluate the model's performance and prevent overfitting. The data was split into training (70%) and testing (30%) sets, and the GBM model was trained using the defined hyperparameters and cross-validation settings.
+
+
 ```{r}
 # Splitting the data into training (70%) and testing (30%) sets
 set.seed(455) 
 trainIndex <- createDataPartition(data$`Quality.of.Sleep`, p = 0.7, list = FALSE)
-trainData <- data_GBM[trainIndex, ]
-testData <- data_GBM[-trainIndex, ]
+trainData <- data[trainIndex, ]
+testData <- data[-trainIndex, ]
 
 ```
 
@@ -796,33 +799,55 @@ gbm_tuned <- train(
   verbose = FALSE
 )
 
-# Printing the best model
-print(gbm_tuned$bestTune)
-print(gbm_tuned)
-
-# Ploting the results
-plot(gbm_tuned)
 ```
 
 
 ```{r}
-summary(gbm_tuned)
+# Predictions on training data with gbm_tuned model
+pred_train_gbm_tuned <- predict(gbm_tuned, newdata = trainData)
+
+mae <- function(y, pred) {
+  return(round(mean(abs(y - pred)), 2))
+}
+
+# MAE for training data with gbm_tuned model
+naive_mae_train <- mae(trainData$`Quality.of.Sleep`, mean(trainData$`Quality.of.Sleep`))
+model_mae_train_gbm_tuned <- mae(trainData$`Quality.of.Sleep`, pred_train_gbm_tuned)
+
+print(paste('Naive Training MAE:', naive_mae_train))
+print(paste('Training MAE with gbm_tuned model:', model_mae_train_gbm_tuned))
+
+# Plotting distribution of errors for gbm_tuned model on training data
+ggplot(data.frame(error = trainData$`Quality.of.Sleep` - pred_train_gbm_tuned), aes(x = error)) +
+  geom_histogram(binwidth = 0.1, fill = 'blue', color = 'black') +
+  ggtitle("Distribution of errors (train) with gbm_tuned model")
+
+ggplot(data.frame(abs_error = abs(trainData$`Quality.of.Sleep` - pred_train_gbm_tuned)), aes(x = abs_error)) +
+  geom_histogram(binwidth = 0.1, fill = 'blue', color = 'black') +
+  ggtitle("Distribution of absolute errors (train) with gbm_tuned model")
+
+# Predictions on test data with gbm_tuned model
+pred_test_gbm_tuned <- predict(gbm_tuned, newdata = testData)
+
+# MAE for test data with gbm_tuned model
+naive_mae_test <- mae(testData$`Quality.of.Sleep`, mean(testData$`Quality.of.Sleep`))
+model_mae_test_gbm_tuned <- mae(testData$`Quality.of.Sleep`, pred_test_gbm_tuned)
+
+print(paste('Naive Testing MAE:', naive_mae_test))
+print(paste('Testing MAE with gbm_tuned model:', model_mae_test_gbm_tuned))
+
+# Plotting distribution of errors for gbm_tuned model on test data
+ggplot(data.frame(error = testData$`Quality.of.Sleep` - pred_test_gbm_tuned), aes(x = error)) +
+  geom_histogram(binwidth = 0.1, fill = 'blue', color = 'black') +
+  ggtitle("Distribution of errors (test) with gbm_tuned model")
+
+ggplot(data.frame(abs_error = abs(testData$`Quality.of.Sleep` - pred_test_gbm_tuned)), aes(x = abs_error)) +
+  geom_histogram(binwidth = 0.1, fill = 'blue', color = 'black') +
+  ggtitle("Distribution of absolute errors (test) with gbm_tuned model")
 ```
 
-```{r}
-# Predicting on the test set
-predictions <- predict(gbm_tuned, newdata = testData)
-
-# Evaluating the model performance
-rmse <- sqrt(mean((testData$`Quality.of.Sleep` - predictions)^2))
-r_squared <- 1 - sum((testData$`Quality.of.Sleep` - predictions)^2) / sum((testData$`Quality.of.Sleep` - mean(testData$`Quality.of.Sleep`))^2)
-
-cat("RMSE:", rmse, "\n")
-cat("R-squared:", r_squared, "\n")
-
-```
-
-
+**Summary of Gradient Boosting Machine**
+The naive MAE represents the error when predicting the mean value of the quality of sleep for all instances, serving as a baseline for comparison. The substantial reduction in MAE from the naive model (1.08) to the tuned GBM model (0.11) on the testing set indicates a significant improvement in predictive accuracy. Similarly, the training MAE for the GBM model (0.08) is much lower than the naive training MAE (1.03), demonstrating that the model effectively learned the patterns in the training data. These results suggest that the GBM model is well-tuned and capable of making accurate predictions, with minimal error, on both the training and testing datasets.
 
 
 
