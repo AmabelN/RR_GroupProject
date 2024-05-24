@@ -25,7 +25,7 @@ By:
 
 ## Project Objective
 
-This project serves as the final assignment for the Reproducible Research course. It utilizes a dataset sourced from Kaggle and involves translating the code from Python to R. The aim of this project is to analyze the sleep health of individuals based on their respective lifestyles. Variables in this project include:
+This project serves as the final assignment for the Reproducible Research course. It utilizes a dataset sourced from Kaggle and involves translating the code from Python to R. The aim of this project is to analyze the sleep health of individuals based on their respective lifestyles, incorporating machine learning techniques to enhance the analysis. Variables in this project include:
 
 -   Gender
 
