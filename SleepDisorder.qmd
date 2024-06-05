@@ -69,7 +69,10 @@ library(gbm)
 library(caret)
 library(caTools)  
 library(stats) 
+library(GGally)
 ```
+
+
 
 ## Data
 
@@ -89,7 +92,7 @@ data <- data %>%
   mutate(BMI.Category = ifelse(BMI.Category %in% c("Normal Weight", "normal"), "Normal", BMI.Category))
 
 # View data cleaned
-data
+head(data)
 ```
 
 ```{r}
@@ -101,6 +104,11 @@ data <- data %>%
 
 # Check the structure of the updated data frame
 str(data)
+```
+```{r}
+# Summary statistics
+summary(data)
+
 ```
 
 ```{r}
@@ -125,10 +133,64 @@ data <- data %>%
   mutate(`Blood.Pressure.Category` = categorize_blood_pressure(`Systolic Pressure`, `Diastolic Pressure`))
 
 # View the newest data
-data
+head(data)
+```
+## Data Visualization
+
+```{r}
+age_groups <- data %>%
+  mutate(Age.Group = case_when(
+    Age <= 35 ~ "35 and below",
+    Age > 35 ~ "35 and above"
+  ))
+
+ggplot(age_groups, aes(x = Age.Group, y = Sleep.Duration, fill = Age.Group)) +
+  geom_bar(stat = "summary", fun = "mean") +
+  labs(title = "Mean Sleep Duration by Age Group", x = "Age Group", y = "Mean Sleep Duration (hours)") +
+  theme_minimal()
+
+ggplot(age_groups, aes(x = Age.Group, y = Quality.of.Sleep, fill = Age.Group)) +
+  geom_bar(stat = "summary", fun = "mean") +
+  labs(title = "Mean Quality of Sleep by Age Group", x = "Age Group", y = "Mean Quality of Sleep") +
+  theme_minimal()
+
+ggplot(age_groups, aes(x = Age.Group, y = Physical.Activity.Level, fill = Age.Group)) +
+  geom_bar(stat = "summary", fun = "mean") +
+  labs(title = "Mean Physical Activity Level by Age Group", x = "Age Group", y = "Mean Physical Activity Level") +
+  theme_minimal()
+
+ggplot(age_groups, aes(x = Age.Group, y = Stress.Level, fill = Age.Group)) +
+  geom_bar(stat = "summary", fun = "mean") +
+  labs(title = "Mean Stress Level by Age Group", x = "Age Group", y = "Mean Stress Level") +
+  theme_minimal()
+
+
 ```
 
-## Data Visualization
+```{r}
+
+# Pair plot of the selected variables
+ggpairs(data %>% select(Sleep.Duration, Quality.of.Sleep, Physical.Activity.Level, Stress.Level))
+
+```
+
+```{r}
+ggplot(data, aes(x = Stress.Level)) +
+  geom_density(fill = "lightblue", alpha = 0.5) +
+  labs(title = "Density Plot of Stress Level", x = "Stress Level", y = "Density") +
+  theme_minimal()
+
+ggplot(data, aes(x = Physical.Activity.Level)) +
+  geom_density(fill = "lightblue", alpha = 0.5) +
+  labs(title = "Density Plot of Stress Level", x = "Stress Level", y = "Density") +
+  theme_minimal()
+
+ggplot(data, aes(x = Sleep.Duration)) +
+  geom_density(fill = "lightblue", alpha = 0.5) +
+  labs(title = "Density Plot of Stress Level", x = "Stress Level", y = "Density") +
+  theme_minimal()
+
+```
 
 ```{r}
 # Create a box plot for Age distribution
@@ -139,7 +201,7 @@ age_boxplot <- ggplot(data, aes(x = '', y = Age)) +
 
 # Create a histogram for Age distribution
 age_histogram <- ggplot(data, aes(x = Age)) + 
-  geom_histogram(binwidth = 1, fill = "blue", color = "black") +
+  geom_histogram(binwidth = 1, fill = "lightblue", color = "black") +
   labs(title = "Age Distribution", x = "Age", y = "Count") +
   theme_minimal()
 
@@ -151,7 +213,7 @@ quality_of_sleep_boxplot <- ggplot(data, aes(x = '', y = Quality.of.Sleep)) +
 
 # Create a histogram for Quality of Sleep distribution
 quality_of_sleep_histogram <- ggplot(data, aes(x = Quality.of.Sleep)) + 
-  geom_histogram(binwidth = 0.5, fill = "blue", color = "black") +
+  geom_histogram(binwidth = 0.5, fill = "lightblue", color = "black") +
   labs(title = "Quality of Sleep Distribution", x = "Quality of Sleep", y = "Count") +
   theme_minimal()
 
@@ -163,7 +225,7 @@ physical_activity_boxplot <- ggplot(data, aes(x = '', y = Physical.Activity.Leve
 
 # Create a histogram for Physical Activity Level distribution
 physical_activity_histogram <- ggplot(data, aes(x = Physical.Activity.Level)) + 
-  geom_histogram(binwidth = 5, fill = "blue", color = "black") +
+  geom_histogram(binwidth = 5, fill = "lightblue", color = "black") +
   labs(title = "Physical Activity Level Distribution", x = "Physical Activity Level", y = "Count") +
   theme_minimal()
 
@@ -175,7 +237,7 @@ stress_level_boxplot <- ggplot(data, aes(x = '', y = Stress.Level)) +
 
 # Create a histogram for Stress Level distribution
 stress_level_histogram <- ggplot(data, aes(x = Stress.Level)) + 
-  geom_histogram(binwidth = 1, fill = "blue", color = "black") +
+  geom_histogram(binwidth = 1, fill = "lightblue", color = "black") +
   labs(title = "Stress Level Distribution", x = "Stress Level", y = "Count") +
   theme_minimal()
 
@@ -187,7 +249,7 @@ heart_rate_boxplot <- ggplot(data, aes(x = '', y = Heart.Rate)) +
 
 # Create a histogram for Heart Rate distribution
 heart_rate_histogram <- ggplot(data, aes(x = Heart.Rate)) + 
-  geom_histogram(binwidth = 1, fill = "blue", color = "black") +
+  geom_histogram(binwidth = 1, fill = "lightblue", color = "black") +
   labs(title = "Heart Rate Distribution", x = "Heart Rate", y = "Count") +
   theme_minimal()
 
@@ -199,7 +261,7 @@ daily_steps_boxplot <- ggplot(data, aes(x = '', y = Daily.Steps)) +
 
 # Create a histogram for Daily Steps distribution
 daily_steps_histogram <- ggplot(data, aes(x = Daily.Steps)) + 
-  geom_histogram(binwidth = 500, fill = "blue", color = "black") +
+  geom_histogram(binwidth = 500, fill = "lightblue", color = "black") +
   labs(title = "Daily Steps Distribution", x = "Daily Steps", y = "Count") +
   theme_minimal()
 
