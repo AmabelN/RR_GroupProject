@@ -95,6 +95,8 @@ data <- data %>%
 head(data)
 ```
 
+We delete NA data and also correct the values ​​in the dataset because normal weight and normal are the same.
+
 ```{r}
 # Split the Blood.Pressure column into two new columns and convert to numeric
 data <- data %>%
@@ -283,27 +285,29 @@ print(combined_plot_layout)
 
 **Age Distribution**:
 
-The box plot indicates a fairly uniform age distribution, with a few outliers on the higher end. The histogram verifies this, displaying a fairly consistent distribution across age groups with a little rise in frequency at the middle age range.
+The box plot shows an almost flat or even distribution of age. There are only a few outliers on the right side, which is indicated by this histogram. It is rather uniform across different age segments with a little spike at middle age as suggested in the diagram below.
 
 **Quality of Sleep Distribution**:
 
-The box plot shows that most values are concentrated in the center of the scale, implying that the majority of people have intermediate sleep quality, with occasional outliers indicating very good sleep quality. The histogram confirms this, demonstrating that most people report sleep quality in the center of the scale, with fewer reporting extremely high or terrible sleep quality.
+Average could be interpreted from the box plot, from which it can be seen that values cluster slightly towards the middle, suggesting that most people have moderate sleep quality while few people have very good sleep quality occasionally. This is evidenced by the histogram where the majority of the subjects reported their sleep quality to be average and few responded they have either very good or very bad sleep quality.
+
 
 **Physical Activity Level Distribution:**
 
-The box plot for physical activity levels shows a broad range of values, with outliers at both the low and high ends. The histogram has a bimodal distribution, with peaks at both the low and high ends of the activity scale. This might imply that there are two separate groups in the population: one that is less active and one that is more active.
+When it comes to physical activity levels, the shapes of the box plots indicate that the range is wide, and the values varies significantly with some lower and upper outliers. This is perhaps the most striking characteristic of the histogram since it indicates that the sample is bimodal, as the high and low extremes of the activity scale are tightly packed. This might imply that there are two separate groups in the population: A less active regionalisation and a more active regionalisation.
 
 **Stress Level Distribution**:
 
-According to the box plot, stress levels are typically close to the median, with no extreme outliers. The histogram shows a rather uniform distribution, with a tiny peak at higher stress levels.
+
+As evidenced by the box plot, stress is not a highly skewed variable because most cases are located around the midline, and there is no long tail section of extreme cases. The histogram above indicates that the distribution is relatively equal across the various stress levels, with slightly high results getting a small peak.
 
 **Heart Rate Distribution:**
 
-The heart rate box plot displays a reasonably compact interquartile range, indicating that the majority of people have a resting heart rate within a restricted range, despite the presence of multiple outliers. The histogram shows a normal distribution with a peak at 70 beats per minute, which is typical for a resting heart rate in adults.
+The box plot of resting heart rate denotes that the dispersion is relatively limited, that is, most people’s heart rate is fairly constant and there a few extreme cases or a few cases outside the interquartile range. The histogram indicates the distribution of Cardiac, which is normal with the peak at 70 per minute, which is normal for an adult.
 
 **Daily Steps Distribution**:
 
-The box plot depicts a wide distribution, reflecting variation in the number of daily steps across individuals, with a few outliers suggesting extremely high step counts. The histogram shows that the majority of people have a daily step count on the low end of the scale, with fewer people reaching higher step counts.\
+It shows a box plot to express the range of number of daily steps where there is fluctuation in the count present in different patients, and some of the values reaching extremely high values. The histogram brought out that an increased number of people are inclined towards having low daily steps with lesser people taking a relatively higher number of steps.
 
 ```{r}
 # Calculate mean, median, and mode
@@ -331,7 +335,7 @@ quality_of_sleep_plot <- ggplot(data, aes(x = Quality.of.Sleep)) +
 print(quality_of_sleep_plot)
 ```
 
-The majority of participants reported excellent quality of sleep (average scores of 7 and 8). The fact that the mode is higher than both the mean and the median indicates that, while some people may have poor sleep quality, this group is more likely to have good sleep.\
+TThe majority of participants provided their assessment of the quality of the night’s sleep and the results can be summarized by stating that most of them had an excellent night’s sleep, as was indicated by the scores of 7 and 8. Thus, it can also be noted that the location of the mode is above both the mean and the median, which suggests that while there is a number of people experiencing poor quality of sleep in this group, there are many more people who sleep well. 
 
 ```{r}
 # Column names
@@ -372,7 +376,8 @@ if (length(plots) > 0) {
 }
 ```
 
-The investigation reveals that there are distinct patterns and variances in sleep quality based on gender, employment, BMI, blood pressure, and the prevalence of sleeping disorders. Lifestyle and health circumstances appear to have a substantial impact on sleep quality.\
+The study conclusively establishes that the men and women, employed and unemployed, with high and low BMI, high and low blood pressure and those who have and don’t have sleeping disorders have different patterns and rate of sleep quality. As based on the findings, lifestyle and health circumstances seem to influence sleep quality considerably. 
+
 
 ```{r}
 # Boxplot for Age by Gender
@@ -400,15 +405,15 @@ grid.arrange(age_plot, sleep_duration_plot, quality_sleep_plot, ncol = 3)
 
 **Age:**
 
-The age boxplot suggests that, on average, women in this dataset are older than men, as indicated by the higher median line for women in the box. Comparable ranges for the top and bottom of the box and the interquartile range (IQR, the height of the box) point to similar age variability for both genders. There are men and females that are both younger and older than the core age categories, according to the whiskers, which depict the dispersion of the remaining data. However, the range for females is larger, indicating greater ages.
+The age boxplot further portrays that there exists a tendency of women in this dataset to be relatively older than men in terms of median as depicted in the boxplot as a higher median bar for women as compared to men. Similar values indicating the range in the top and bottom of boxes and the IQR signifying the height of the boxes also suggest a similar dispersion of age for both boys and girls. The two whiskers show that there are some men and females younger than the respondents and others older than the respondents within the marginal age group categories of 25-34 and 35-44 years. However, the range here tells us that the females are older, with a higher range than males.
 
 **Sleep Duration:**
 
-The boxplot illustrates that men have a somewhat shorter median sleep time than women. The identical IQRs for the two genders suggest that the middle 50% of people have similar sleep duration distributions. Males appear to have a significantly larger distribution of sleep time than females, as indicated by the slightly greater range for males.
+By comparing the median sleep time between the two sexes, shown by the central slash in the boxplots, one can infer that men have slightly shorter hours of sleep than women. IQRs represent the distribution of the middle 50% of the data, and the fact that IQRs for the two genders was the same suggests this group is similar for both genders. Thus, there are tendencies in the results point to the fact that males seem to have a considerably wider distribution in sleep time than females where the variability in the results, manifesting itself as the range, is somewhat higher for males than for females.
 
 **Quality of Sleep:**
 
-The median line suggests that when it comes to sleep quality, women appear to report a little greater median quality of sleep than men. For both genders, the dispersion of values (IQR) is comparable, though. Females tend to have a greater general range than males, suggesting that the quality of their sleep is more variable, with some reporting extremely good and some very low quality.
+The median line indicates therefore that, in terms of the quality of sleep, as outlined above, women seem to have a slightly higher median quality of sleep than men. In males and females, it is also the same range of dispersion of values as shown by IQR. A much wider dispersion in scores was observed for females than for males, which indicates that women’s sleep can vary to a greater extent in quality and can be exceptionally good as well as very bad.
 
 ```{r}
 # Count the number of participants in each occupation
@@ -442,11 +447,11 @@ print(quality_sleep_plot)
 
 **Occupational Distribution**:
 
-The distribution of participants among different vocations is seen in the first chart. The most common occupation is nursing, which is followed by engineering and medicine. In the sample, managers and sales reps are the least represented. This distribution may represent the true demographic composition of the pool from which participants were selected, or it may show the interest or availability of various occupations in taking part in the study.\
+Some demographics of the participants of the study are presented in the first chart where the distribution of participants by different vocations is depicted. The largest number of professionals are employed in the field of nursing then followed by engineering profession and then medical profession. With regard to the sample distribution, the managers/sales reps are the least ranked. It could mean that this is the actual proportion of the population from which participants were sampled, or, it could mean that it is indicative of the willingness or availability of different occupations to be involved in the study.
 
 **Average Quality of Sleep by Occupation**:
 
-The second graph displays the average sleep quality for various professions. Engineers seem to have the greatest average sleep quality, followed by accountants and attorneys. Conversely, scientists and sales people report the lowest average quality of sleep, which might be attributed to issues relating to their line of work or greater levels of stress related to their jobs. Despite the important importance of their work, doctors do not necessarily get better sleep than other professions, as seen by the fact that, despite their large representation in the dataset, their average sleep quality does not top the list.\
+The power point continues with the second graph that compares the average sleep quality of different professions. This reveals that engineers have the best quality of sleep than the other professions: then followed by accountants and attorneys. On the other hand, it is seen that scientists and sales people get the least quality sleep, on average, and this may be due to work related problems or may be the they have stress on their work. Alas, even crucial attendants of our health, doctors do not necessarily sleep better than ordinary working individuals, this is evidenced by the fact that, while expanding a list of people studied – doctors took a significant part, their average night’s rest is not the best.
 
 ```{r}
 # Count of participants by Sleep Disorder
@@ -475,15 +480,15 @@ print(sleep_quality_boxplot)
 
 **Prevalence of Sleep Disorders**:
 
-The bar graph displays the number of individuals with various sleep problems. The majority of individuals do not appear to have a sleep issue, with insomnia being the most common and sleep apnea being the least prevalent.
+The pictorial data given for different sleep problems is in the form of a bar graph showing the count of people affected. Hence, it is clear that majority of people do not have any sleep disorder problem; however the most common sleeping disorder is insomnia while the least is sleep apnea.
 
 **Average Sleep Quality by Sleep Disorder**:
 
-This bar graph shows that persons without a sleep issue had the highest average sleep quality score, indicating higher overall sleep quality. Individuals with insomnia and sleep apnea have lower scores, indicating worse sleep quality, which is consistent with the nature of these diseases.\
+From this bar graph, it can be clearly seen that persons who did not have any sleep problem represented the highest group with the highest average sleep quality rating, thus implying that their sleep was of better quality than the rest. Insomnia and sleep apnea disease involve diseases of the human body, and participants diagnosed with these diseases receive lower scores, suggesting poor sleep quality .
 
 **Sleep Quality Distribution by Sleep Disorder**:
 
-The boxplot depicts the distribution of sleep quality across each sleep disorder category. Individuals without a sleep issue had the greatest median sleep quality. Participants with insomnia have the lowest median sleep quality and a larger interquartile range (IQR), indicating greater variability in their sleep quality. The 'Sleep Apnea' group has a greater median sleep quality than the 'Insomnia' group, but it also has a wide IQR, indicating variability among persons with this disease.\
+It shows the status of sleep quality of each sleep disorder category using the box plot. Lastly, they found that people who did not have sleep disorders had the highest median sleep quality. The participants with insomnia have the lowest score in median sleep quality and higher IQR which also show that there is more variations in their sleep quality. The ‘Sleep Apnea’ group has a larger median sleep quality compared to the ‘Insomnia’ group However, the IQR for the ‘Sleep Apnea’ group is larger than that of the ‘Insomnia’ group meaning there is variation in sleep quality among individuals with this disease.
 
 ```{r}
 # BMI Data Plotting
@@ -523,15 +528,14 @@ bmi_quality_boxplot
 
 **BMI Category Distribution**:
 
-The first graphic is a bar graph that depicts the distribution of participants across various BMI groups. The bulk of the participants had a 'Normal' BMI, with a much lower proportion in the 'Overweight' group and very few in the 'Obese' category.
+The first figure is a bar chart to show the participants in each BMI category. The preponderance of the participants was in the ‘Normal’ BMI, and less number in the ‘Overweight’ group and a very negligible number in the ‘Obese’ group.
 
 **Average Quality of Sleep by BMI Category**:
 
-The second figure depicts the average sleep quality for each BMI group, as measured on a scale (not stated, but likely 1 to 10 or comparable). persons with a 'Normal' BMI report the best average quality of sleep, followed by 'Overweight' persons, who report somewhat less, and 'Obese' individuals, who report the lowest average quality of sleep. However, the differences across the groups appear to be small.
+The second bar chart illustrates the average sleep quality to BMI groupings on a scale inconsistent indicated but most likely bounded by 1 or 10. Of all the groups, the ‘Normal’ BMI seems to enjoy the best average quality of sleep, followed by ‘Overweight’ and ‘Obese’ persons, who report a lower value than the ‘Normal’ BMI. But again, discrepancies are exhibited across the groups seem to be small.
 
 **Sleep Quality Boxplot by BMI Category**:
-
-The final graphic is a boxplot that shows a more comprehensive distribution of sleep quality ratings within each BMI group. The 'Normal' BMI group has the greatest median sleep quality but also includes an outlier with a very poor sleep quality score. The 'Obese' category has a broad interquartile range, indicating that sleep quality varies more among people in this group. The 'Overweight' category has a median sleep quality that is lower than the 'Normal' but higher than the 'Obese' category, and its interquartile range is shorter than in the 'Obese' group, indicating greater consistency in sleep quality among 'Overweight' individuals.\
+The last graphic is a boxplot that provides for a broader picture of the distribution of sleep quality ratings in each bracket of BMI. The ‘Normal’ BMI value has the highest median sleep quality thus its large variance due to one participant who has a very poor sleep quality result. As seen in the ‘Obese’ category, the interquartile range is relatively weak, implying that sleep quality slightly differs a lot among the individuals. The ‘Overweight’ group has the sleep quality which is lower than in ‘Normal’ group but higher than in ‘Obese’ and, moreover, has got the smaller interquartile range than ‘Obese’ category, thus pointing to the higher homogeneity of sleep indicators in ‘Overweight’ people.
 
 ```{r}
 # Blood Pressure Data Plotting
@@ -567,15 +571,16 @@ bp_quality_boxplot
 
 **Blood Pressure Level Distribution**:
 
-The bar chart depicts the distribution of blood pressure categories among the participants. The biggest group is those with normal blood pressure, followed by those with hypertension, and the smallest group is made up of people with ideal blood pressure. This shows that the majority of people have normal blood pressure.\
+The bar chart represent the incremented percentage on the basis of blood pressure categories of the participants. The largest proportion comprises the group with normal levels of blood pressure, and the second largest with the group having high blood pressure, while the smallest proportion of the population comprises the group with ideal blood pressure. From the graph above it is evident that the majority of individuals have normal blood pressure levels.
 
 **Average Sleep Quality by Blood Pressure Category**:
 
-The bar chart that compares the average sleep quality of the same blood pressure groups. Interestingly, individuals with ideal blood pressure had the best average sleep quality, followed by those with normal blood pressure, and those with hypertension have the lowest average sleep quality. This suggests a possible link between reduced blood pressure and improved sleep quality.\
+The bar chart where similar to the previous one shows the average of sleep quality depending on the same groups of blood pressure. Most surprisingly, people with ideal BP had the most desirable average sleep quality while the normotensive had a slightly worse average sleep quality compared to the hypertensives who had the worst sleep quality. This leads to a notion that low blood pressure is associated with better quality sleep than the high blood pressure.
 
 **Sleep Quality Boxplot by Blood Pressure Category**:
 
-The boxplot that shows how sleep quality varies across each blood pressure group. The boxplot for hypertension exhibits a broader range and higher median sleep quality scores than the boxplot for normal blood pressure, which is more compacted and has a little lower median. The ideal blood pressure group had a higher median than the other two, but a few outliers suggest that some people with perfect blood pressure nevertheless report poor sleep quality. This graph illustrates that, while people with ideal blood pressure had superior average sleep quality, there is variation within each category.\
+The containing boxplot depicting how the quality of sleep changes with respect to different blood pressure groups. Comparing the boxplot for hypertension and normal blood pressure, the former has higher range and the middle-adjoining, with median sleep quality scores higher than the other, and box plot more compacted with a slightly lower median. Thus, the results showed that the ideal blood pressure group has a higher median compare to two other groups, but when evaluating outliers, it can be stated that there are people with ideal blood pressure value, who experience poor sleep quality. This graph shows that for those with the ideal blood pressure, they have higher overall average sleep quality, however, it’s clear that there are different degrees of this within each group.
+
 
 ```{r}
 # Select only the numeric columns from the data
@@ -591,15 +596,15 @@ corrplot(cor_matrix, method = "color", type = "upper",
 
 ```
 
--   The scale on the right represents the range of correlation coefficients from -1 to 1.
+- The scale to the right offer how strong the correlation is and value ranges from -1 to 1.
 
--   A coefficient near to 1 indicates a significant positive correlation, which means that when one variable grows, so does the other.
+- When the coefficient is close to 1, it means that the data marked has a strong positive relationship, and in simpler terms, it means that if one variable increases, the other also experiences an equivalent increase.
 
--   A coefficient around -1 indicates a significant negative correlation, implying that when one variable grows, the other tends to decrease.
+- A coefficient of approximately -1 means that the relationship has a strong negative form, that negative changes in the first variable are followed by negative changes in the second variable.
 
--   A coefficient around zero indicates little or no linear association between the variables.
+- If the coefficient is about zero, then it also suggests that there is a negligible or no straight line relationship between the said variables.
 
-    Thus, "Age" and "Person.ID" exhibit a substantial negative connection, which is uncommon and may imply that "Person.ID" is quantitatively linked to age. However, an ID should not have any association with age unless it is arbitrarily assigned based on age. "Quality of Sleep" and "Physical Activity Level" show a significant positive link, implying that persons who engage in more physical exercise may have better sleep quality. "Stress Level" appears to have a modest positive connection with "Systolic Pressure" and "Diastolic Pressure," showing that more stress may be connected with greater blood pressure. "Daily Steps" has a substantial negative association with "Heart Rate," implying that those who take more daily steps may have a lower resting heart rate, which is an indication of excellent cardiovascular health.\
+Hence, it could be ascertained that there is a fairly strong negative correlation between ‘Age’ and ‘Person. ID’, which is quite rare and suggests that ‘Person. ID’ might have a quantitative relation to age. Nonetheless, any ID should not tie it to age, other than a random numbering system in accordance with age. The study of correlation reveal that there is a positive relationship between between the variable “Quality of Sleep” and the variable “Physical Activity Level” which may suggest that those who are more physically active may enjoy better quality of sleep. While examining the correlation between “Stress Level” and “Systolic Pressure” and “Diastolic Pressure”, it can be suggested that Stress Level has a moderate positive relationship with them, meaning that higher stress correlates with higher blood pressure. This correlation shows that there is a negative correlation between the “Daily Steps” and the “Heart Rate;” therefore, more daily steps are likely to mean a lower resting heart rate, which in this context, is a sign of good health especially in regards to the cardiovascular system.
 
 ```{r}
 # Scatter plot of Sleep Duration vs Quality of Sleep
@@ -625,11 +630,11 @@ plot2
 
 **Long Rest = Good Rest**:
 
-The first figure demonstrates a favorable relationship between sleep length and sleep quality. Sleep duration increases as sleep quality scores rise, implying that those who report higher sleep quality sleep for longer periods of time. The data points are densely packed around the trend line, particularly when sleep quality improves, demonstrating a significant correlation between these two factors.\
+In the first figure we can see a trend positive correlation between the length of sleep and sleep quality. The time devoted to sleep also rises as the scores relating to sleep quality go higher, which means that people who have higher sleep quality get more sleep. When analyzing the changes in data points, it can be noted that the higher the subjective perceived sleep quality, the greater the correlation with the obtained results: most of the points are clustered near the trend line in this case. \
 
 **More Stress = Bad Rest**:
 
-The second figure demonstrates a negative link between stress and sleep quality. As stress levels rise, the quality of sleep declines, implying that increased stress is linked to decreased sleep quality. The trend line slopes lower across the plot, and the data points, albeit slightly dispersed, follow the downward trend, confirming the negative link between stress and sleep quality.\
+The second figure only draws a negative correlation between stress and sleep quality. The increased stress was thus associated with lower sleep quality as the stress levels intensify, the quality of sleep reduces. The further down the plot, the line indicates reduced stress levels, and in general, all the data points are oriented lower along the X-axis and reflect the trend of lower stress levels being connected to better sleep quality. \
 
 ```{r}
 # Scatter plot of Physical Activity Level vs Sleep Quality
@@ -671,21 +676,21 @@ plot5
 plot6
 ```
 
-**Sleep Quality Based on Physical Activity**:
+**Sleep Quality by Physical Activity**:
 
-There appears to be a favorable relationship between physical exercise (in minutes) and sleep quality. The sleep quality score improves with increased physical activity. The shaded region reflects the confidence interval, which indicates some uncertainty around the trend line but overall suggests that more physical activity is connected with higher sleep quality.\
+There is a positive relationship between physical activity, in minutes and sleep quality. That is, as physical activity increases so does the sleep quality score. The shaded area is the confidence interval showing a bit of uncertainty around the trend line but in general more physical activity is associated with higher sleep quality.
 
 **Sleep Duration and Age**:
 
-The graph shows a positive link between age and sleep length (in hours). Sleep duration rises with age, suggesting that older people sleep more rather than less. However, the distribution of data points indicates that there is significant variability and that other factors may possibly play a role.\
+This graph shows a positive relationship between age and sleep duration, in hours. The sleep duration is increasing with age indicating that older people sleep more rather than less. However the scattering of points shows by how much this can vary, and the extent to which other factors may be involved.
 
 **Sleep Duration and Heart Rate**:
 
-This graph indicates a negative association between heart rate and sleep duration. It suggests that a greater resting heart rate leads to shorter sleep lengths. The trend line falls as the heart rate rises, corroborating this theory.\
+This graph will help to support a negative relationship between heart rate and sleep duration. That is, the higher the heart rate, the shorter the duration of sleeping. Indeed, the trend line shows a decrease as the heart rate increases, thereby justifying this assumption.
 
 **Sleep Duration and Physical Activity**:
 
-This plot demonstrates a beneficial relationship between physical activity and sleep length. As physical activity increases, so does sleep length, supporting the title's claim that physical exercise can help you sleep longer.\
+This graph indicates that, indeed, there is a positive relationship between sleep duration and physical activity. This means the more an individual is physically active, the longer he or she is going to sleep. This graph therefore supports the argument that exercises help an individual to sleep longer.
 
 ```{r}
 # Scatter plot of Heartbeat vs Stress Lvevel
@@ -1021,14 +1026,14 @@ The naive MAE represents the error when predicting the mean value of the quality
 
 ## References
 
--   https://www.psychiatry.org/patients-families/sleep-disorders/what-are-sleep-disorders#:\~:text=Sleep%20disorders%20(or%20sleep%2Dwake,distress%20and%20impairment%20in%20functioning.
+- American Psychiatric Association. (n.d.). What are sleep disorders? Retrieved June 15, 2024, from https://www.psychiatry.org/patients-families/sleep-disorders/what-are-sleep-disorders
 
--   https://www.mayoclinic.org/diseases-conditions/insomnia/symptoms-causes/syc-20355167#:\~:text=Insomnia%20is%20a%20common%20sleep,level%20and%20affect%20your%20mood.
+- Cleveland Clinic. (n.d.). Sleep apnea. Retrieved June 15, 2024, from https://my.clevelandclinic.org/health/diseases/8718-sleep-apnea
 
--   https://my.clevelandclinic.org/health/diseases/8718-sleep-apnea
+- Giacometti, A. (n.d.). Sleep health analysis: How to sleep better. Retrieved June 15, 2024, from https://www.kaggle.com/code/alessandrogiacometti/sleep-health-analysis-how-to-sleep-better
 
--   https://www.kaggle.com/code/alessandrogiacometti/sleep-health-analysis-how-to-sleep-better
+- Mayo Clinic. (n.d.). Insomnia: Symptoms & causes. Retrieved June 15, 2024, from https://www.mayoclinic.org/diseases-conditions/insomnia/symptoms-causes/syc-20355167
 
--   https://www.salute.gov.it/portale/alleanzaCardioCerebrovascolari/dettaglioSchedeAlleanzaCardioCerebrovascolari.jsp?lingua=italiano&id=18&area=Alleanza%20italiana%20per%20le%20malattie%20cardio-cerebrovascolari&menu=malattie#:\~:text=Quando%20i%20valori%20pressori%20di,si%20parla%20di%20ipertensione%20arteriosa.
+- Ministero della Salute. (n.d.). Ipertensione arteriosa. Retrieved June 15, 2024, from https://www.salute.gov.it/portale/alleanzaCardioCerebrovascolari/dettaglioSchedeAlleanzaCardioCerebrovascolari.jsp?lingua=italiano&id=18&area=Alleanza%20italiana%20per%20le%20malattie%20cardio-cerebrovascolari&menu=malattie
 
-## 
+- OpenAI. (2024). Personal communication via ChatGPT [Personal correspondence]. June 15, 2024.
