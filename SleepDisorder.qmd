@@ -335,7 +335,7 @@ quality_of_sleep_plot <- ggplot(data, aes(x = Quality.of.Sleep)) +
 print(quality_of_sleep_plot)
 ```
 
-TThe majority of participants provided their assessment of the quality of the night’s sleep and the results can be summarized by stating that most of them had an excellent night’s sleep, as was indicated by the scores of 7 and 8. Thus, it can also be noted that the location of the mode is above both the mean and the median, which suggests that while there is a number of people experiencing poor quality of sleep in this group, there are many more people who sleep well. 
+The majority of participants provided their assessment of the quality of the night’s sleep and the results can be summarized by stating that most of them had an excellent night’s sleep, as was indicated by the scores of 7 and 8. Thus, it can also be noted that the location of the mode is above both the mean and the median, which suggests that while there is a number of people experiencing poor quality of sleep in this group, there are many more people who sleep well. 
 
 ```{r}
 # Column names
@@ -535,6 +535,7 @@ The first figure is a bar chart to show the participants in each BMI category. T
 The second bar chart illustrates the average sleep quality to BMI groupings on a scale inconsistent indicated but most likely bounded by 1 or 10. Of all the groups, the ‘Normal’ BMI seems to enjoy the best average quality of sleep, followed by ‘Overweight’ and ‘Obese’ persons, who report a lower value than the ‘Normal’ BMI. But again, discrepancies are exhibited across the groups seem to be small.
 
 **Sleep Quality Boxplot by BMI Category**:
+
 The last graphic is a boxplot that provides for a broader picture of the distribution of sleep quality ratings in each bracket of BMI. The ‘Normal’ BMI value has the highest median sleep quality thus its large variance due to one participant who has a very poor sleep quality result. As seen in the ‘Obese’ category, the interquartile range is relatively weak, implying that sleep quality slightly differs a lot among the individuals. The ‘Overweight’ group has the sleep quality which is lower than in ‘Normal’ group but higher than in ‘Obese’ and, moreover, has got the smaller interquartile range than ‘Obese’ category, thus pointing to the higher homogeneity of sleep indicators in ‘Overweight’ people.
 
 ```{r}
@@ -820,6 +821,8 @@ p5 <- ggplot(data, aes(x = Heart.Rate, y = Quality.of.Sleep, color = Blood.Press
 
 ggMarginal(p5, type = "histogram")
 ```
+
+The graphs compare the effects of the physiological health indicators on sleep quantity and quality. The first graph is related to BMI categories and sleep duration by age, which raises the same conclusions that particularly, individuals with normal BMI have a stable sleeping duration in contrast to overweight or obese people. The next couple of graphs continue the analysis of the data on sleep quality, heart rate, stress level and blood pressure, with the data split by different sleep disorders, sleeplessness, insomnia, apnea, etc. These points raise a general tendency according to which have normal HR and BP, which is the normal condition for everyone in general, already causes healthy sleep, and low stress indicates better sleep quality again proving the fact of paying attention to general health conditions to report better nighttime rest.
 
 ## Machine Learning
 
