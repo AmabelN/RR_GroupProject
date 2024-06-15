@@ -57,8 +57,7 @@ Sleep disorders (or sleep-wake disorders) are difficulties with the quality, tim
 
 ## Library
 
-```{r}
-# Libraries used
+```{r }
 library(dplyr)
 library(tidyr)
 library(ggplot2)
@@ -67,13 +66,22 @@ library(corrplot)
 library(ggExtra)
 library(gbm)
 library(caret)
-library(caTools)  
-library(stats) 
+library(caTools)
+library(stats)
 library(GGally)
 library(neuralnet)
 library(Metrics)
 ```
 
+```{r}
+
+library("groundhog")
+
+pkgs <- c("dplyr", "tidyr","ggplot2","patchwork","corrplot","ggExtra","gbm","caret","caTools","stats","GGally","neuralnet","Metrics")
+
+groundhog.library(pkgs, date = "2024-04-23")
+
+```
 
 
 ## Data
@@ -810,6 +818,17 @@ mae_value <- mae(testData$Quality.of.Sleep, prediction)
 print(mae_value)
 
 plot(nn)
+```
+
+```{r}
+#for reproducibility
+
+sink(file="session_info.txt")
+
+sessionInfo()
+
+sink()
+
 ```
 
 
