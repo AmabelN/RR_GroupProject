@@ -80,6 +80,7 @@ library(Metrics)
 
 ```{r}
 # Read the data
+
 data <- read.csv('Sleep_health_and_lifestyle_dataset.csv')
 ```
 
@@ -122,6 +123,7 @@ Splitting the Blood.Pressure Column and Converting to Numeric and viewing Summar
 
 ```{r}
 # Function for categorizing blood pressure
+
 categorize_blood_pressure <- function(systolic, diastolic) {
   if (is.na(systolic) | is.na(diastolic)) {
     return(NA)
@@ -183,17 +185,17 @@ Categorizing age into two groups, over 35 and under 35. On average, those over 3
 ```{r}
 ggplot(data, aes(x = Stress.Level)) +
   geom_density(fill = "lightblue", alpha = 0.5) +
-  labs(title = "Density Plot of Stress Level", x = "Stress Level", y = "Density") +
+  labs(title = "Density Plot of Stress.Level", x = "Stress Level", y = "Density") +
   theme_minimal()
 
 ggplot(data, aes(x = Physical.Activity.Level)) +
   geom_density(fill = "lightblue", alpha = 0.5) +
-  labs(title = "Density Plot of Stress Level", x = "Stress Level", y = "Density") +
+  labs(title = "Density Plot of Physical.Activity.Leve", x = "Physical.Activity.Leve", y = "Density") +
   theme_minimal()
 
 ggplot(data, aes(x = Sleep.Duration)) +
   geom_density(fill = "lightblue", alpha = 0.5) +
-  labs(title = "Density Plot of Stress Level", x = "Stress Level", y = "Density") +
+  labs(title = "Density Plot of Sleep.Duration", x = "Sleep.Duration", y = "Density") +
   theme_minimal()
 
 ```
@@ -201,12 +203,14 @@ ggplot(data, aes(x = Sleep.Duration)) +
 The stress level has a different distribution in each plot. In the first plot, the stress level is 4 and the other is around stress level 6. In the second, the plot tends to fluctuate. Meanwhile, in the third plot, the levels tend to be close, namely around stress levels 6 and 7.
 
 ```{r}
-# Calculate mean, median, and mode
+#Chat GPT is used for this section. 
+
 mean_sleep <- mean(data$Quality.of.Sleep, na.rm = TRUE)
 median_sleep <- median(data$Quality.of.Sleep, na.rm = TRUE)
 mode_sleep <- as.numeric(names(sort(table(data$Quality.of.Sleep), decreasing = TRUE)[1]))
 
-# Create the histogram and add lines for mean, median, and mode
+# Histogram 
+
 quality_of_sleep_plot <- ggplot(data, aes(x = Quality.of.Sleep)) +
   geom_histogram(aes(y = ..count..), binwidth = 1, fill = "lightblue", color = "black") +
   geom_vline(aes(xintercept = mean_sleep, color = "Mean"), linetype = "dashed", linewidth = 1) +
@@ -222,13 +226,14 @@ quality_of_sleep_plot <- ggplot(data, aes(x = Quality.of.Sleep)) +
     axis.title.y = element_text(vjust = 1.2)
   )
 
-# Print the plot
 print(quality_of_sleep_plot)
 ```
 
 The majority of participants reported excellent quality of sleep (average scores of 7 and 8). The fact that the mode is higher than both the mean and the median indicates that, while some people may have poor sleep quality, this group is more likely to have good sleep.\
 
 ```{r}
+#Chat GPT is used for this section. 
+
 # Column names
 quality_of_sleep_col <- "Quality.of.Sleep"
 grouping_cols <- c("Gender", "Occupation", "BMI.Category", "Blood.Pressure.Category", "Sleep.Disorder")
@@ -288,7 +293,6 @@ quality_sleep_plot <- ggplot(data, aes(x = Gender, y = `Quality.of.Sleep`, fill 
   labs(title = "3. How well do they sleep?", y = "Quality of Sleep", x = "Gender") +
   theme_minimal()
 
-# Combine the plots into a single plot window
 library(gridExtra)
 grid.arrange(age_plot, sleep_duration_plot, quality_sleep_plot, ncol = 3)
 ```
@@ -500,15 +504,17 @@ This graph shows the relationship between physical activity levels and stress le
 ## Machine Learning
 
 **Linear Regression**
+
 ```{r}
 # Response and predictor variables
+
 y <- data$Quality.of.Sleep
 X <- data %>% select(Sleep.Duration, Age, Physical.Activity.Level, Stress.Level, Heart.Rate, Daily.Steps)
 
-# Add a constant column for the intercept
+# Constant column for the intercept
 X <- cbind(Intercept = 1, X)
 
-# Split the data into training and testing sets (70% train, 30% test)
+# Train Test Split
 set.seed(42)  # For reproducibility
 split <- sample.split(y, SplitRatio = 0.7)
 X_train <- subset(X, split == TRUE)
@@ -561,11 +567,11 @@ print(paste('Training MAE with refined model:', model_mae_train_refined))
 
 # Plotting distribution of errors for refined model
 ggplot(data.frame(error = y_train - pred_train_refined), aes(x = error)) +
-  geom_histogram(binwidth = 0.1, fill = 'blue', color = 'black') +
+  geom_histogram(binwidth = 0.1, fill = 'lightblue', color = 'black') +
   ggtitle("Distribution of errors (train) with refined model")
 
 ggplot(data.frame(abs_error = abs(y_train - pred_train_refined)), aes(x = abs_error)) +
-  geom_histogram(binwidth = 0.1, fill = 'blue', color = 'black') +
+  geom_histogram(binwidth = 0.1, fill = 'lightblue', color = 'black') +
   ggtitle("Distribution of absolute errors (train) with refined model")
 
 # Predictions on test data with refined model
@@ -580,11 +586,11 @@ print(paste('Testing MAE with refined model:', model_mae_test_refined))
 
 # Plotting distribution of errors for refined model
 ggplot(data.frame(error = y_test - pred_test_refined), aes(x = error)) +
-  geom_histogram(binwidth = 0.1, fill = 'blue', color = 'black') +
+  geom_histogram(binwidth = 0.1, fill = 'lightblue', color = 'black') +
   ggtitle("Distribution of errors (test) with refined model")
 
 ggplot(data.frame(abs_error = abs(y_test - pred_test_refined)), aes(x = abs_error)) +
-  geom_histogram(binwidth = 0.1, fill = 'blue', color = 'black') +
+  geom_histogram(binwidth = 0.1, fill = 'lightblue', color = 'black') +
   ggtitle("Distribution of absolute errors (test) with refined model")
 
 ```
@@ -606,7 +612,7 @@ In this part of the project, we implemented a Gradient Boosting Machine (GBM) mo
 
 
 ```{r}
-# Splitting the data into training (70%) and testing (30%) sets
+# Train Test Split
 
 set.seed(455) 
 trainIndex <- createDataPartition(data$`Quality.of.Sleep`, p = 0.7, list = FALSE)
@@ -619,6 +625,7 @@ testData <- data[-trainIndex, ]
 ```{r}
 
 # Hyperparameters of grid search
+
 grid <- expand.grid(
   n.trees = c(25, 50, 100, 150),       
   interaction.depth = c(1, 2),     
@@ -628,12 +635,14 @@ grid <- expand.grid(
 
 
 # Setting up the training control with 5-fold cross-validation
+
 train_control <- trainControl(method = "cv", number = 5)
 ```
 
 
 ```{r}
 # Training the model using the grid search
+
 set.seed(455) # For reproducibility
 gbm_tuned <- train(
   `Quality.of.Sleep` ~ `Sleep.Duration` + Age + `Physical.Activity.Level` + `Stress.Level` + `Heart.Rate` + `Daily.Steps`,
@@ -655,20 +664,13 @@ mae <- function(y, pred) {
   return(round(mean(abs(y - pred)), 2))
 }
 
-# MAE for training data with gbm_tuned model
-naive_mae_train <- mae(trainData$`Quality.of.Sleep`, mean(trainData$`Quality.of.Sleep`))
-model_mae_train_gbm_tuned <- mae(trainData$`Quality.of.Sleep`, pred_train_gbm_tuned)
-
-print(paste('Naive Training MAE:', naive_mae_train))
-print(paste('Training MAE with gbm_tuned model:', model_mae_train_gbm_tuned))
-
 # Plotting distribution of errors for gbm_tuned model on training data
 ggplot(data.frame(error = trainData$`Quality.of.Sleep` - pred_train_gbm_tuned), aes(x = error)) +
-  geom_histogram(binwidth = 0.1, fill = 'blue', color = 'black') +
+  geom_histogram(binwidth = 0.1, fill = 'lightblue', color = 'black') +
   ggtitle("Distribution of errors (train) with gbm_tuned model")
 
 ggplot(data.frame(abs_error = abs(trainData$`Quality.of.Sleep` - pred_train_gbm_tuned)), aes(x = abs_error)) +
-  geom_histogram(binwidth = 0.1, fill = 'blue', color = 'black') +
+  geom_histogram(binwidth = 0.1, fill = 'lightblue', color = 'black') +
   ggtitle("Distribution of absolute errors (train) with gbm_tuned model")
 
 # Predictions on test data with gbm_tuned model
@@ -683,20 +685,17 @@ print(paste('Testing MAE with gbm_tuned model:', model_mae_test_gbm_tuned))
 
 # Plotting distribution of errors for gbm_tuned model on test data
 ggplot(data.frame(error = testData$`Quality.of.Sleep` - pred_test_gbm_tuned), aes(x = error)) +
-  geom_histogram(binwidth = 0.1, fill = 'blue', color = 'black') +
+  geom_histogram(binwidth = 0.1, fill = 'lightblue', color = 'black') +
   ggtitle("Distribution of errors (test) with gbm_tuned model")
 
 ggplot(data.frame(abs_error = abs(testData$`Quality.of.Sleep` - pred_test_gbm_tuned)), aes(x = abs_error)) +
-  geom_histogram(binwidth = 0.1, fill = 'blue', color = 'black') +
+  geom_histogram(binwidth = 0.1, fill = 'lightblue', color = 'black') +
   ggtitle("Distribution of absolute errors (test) with gbm_tuned model")
 ```
 
 **Summary of Gradient Boosting Machine**
-The naive MAE represents the error when predicting the mean value of the quality of sleep for all instances, serving as a baseline for comparison. The substantial reduction in MAE from the naive model (1.08) to the tuned GBM model (0.11) on the testing set indicates a significant improvement in predictive accuracy. Similarly, the training MAE for the GBM model (0.08) is much lower than the naive training MAE (1.03), demonstrating that the model effectively learned the patterns in the training data. These results suggest that the GBM model is well-tuned and capable of making accurate predictions, with minimal error, on both the training and testing datasets.
 
-```{r}
-trainData
-```
+The naive MAE represents the error when predicting the mean value of the quality of sleep for all instances, serving as a baseline for comparison. The substantial reduction in MAE from the naive model (1.08) to the tuned GBM model (0.11) on the testing set indicates a significant improvement in predictive accuracy. Similarly, the training MAE for the GBM model (0.08) is much lower than the naive training MAE (1.03), demonstrating that the model effectively learned the patterns in the training data. These results suggest that the GBM model is well-tuned and capable of making accurate predictions, with minimal error, on both the training and testing datasets.
 
 ```{r}
 
@@ -763,6 +762,43 @@ testData <- data.frame(
   Quality.of.Sleep = testData$Quality.of.Sleep
 )
 
+```
+
+**Support Vector Regression**
+
+
+
+```{r}
+library(e1071)
+
+trainControl <- trainControl(method = "cv", number = 10)
+
+tuneGrid <- expand.grid(
+  C = c(0.1, 1, 10, 100),
+  sigma = c(0.01, 0.05, 0.1)
+)
+
+svm <- svm(Quality.of.Sleep ~ Age + Sleep.Duration + Stress.Level + Heart.Rate + Daily.Steps, data = trainData,
+           method = "svmRadial",
+           trControl = trainControl,
+           tuneGrid = tuneGrid)
+
+summary(svm)
+
+prediction <- predict(svm, newdata = testData)
+
+mae <- mean(abs(prediction - testData$Quality.of.Sleep))
+print(paste("Mean Absolute Error:", mae))
+
+
+```
+Results of SVM model is same with tuned GBM model (0.11). It still shows an improvement compared to linear regression model. The biggest advantage of SVM is it is a very fast model and it makes easier to deal with large datasets. Its also very effective in high dimentional datasets. With the help of parameter C its robust to over fitting. SVM is highly efficient in non-linear relationships. Overall, This model provided us quite good results. MAE (0.11)
+
+**Neural Network Model**
+
+Last Model we used in this project is Neural Networks. We used the "neuralnet" package to train our model. COmpared to previous models neural network model provided us best MAE (0.03). For this project we concluded that neural network outperfom linear regression, GBM and SVM.
+
+```{r}
 
 nn <- neuralnet(Quality.of.Sleep ~ Age + Sleep.Duration + Stress.Level + Heart.Rate + Daily.Steps,  
                 data = trainData, hidden = c(5, 3), learningrate = 0.01, stepmax = 1e6,
@@ -773,7 +809,6 @@ prediction <- predict(nn, testData)
 mae_value <- mae(testData$Quality.of.Sleep, prediction)
 print(mae_value)
 
-#print(predictions)
 plot(nn)
 ```
 
