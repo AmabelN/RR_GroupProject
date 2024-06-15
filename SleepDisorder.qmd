@@ -83,6 +83,8 @@ library(Metrics)
 data <- read.csv('Sleep_health_and_lifestyle_dataset.csv')
 ```
 
+Reading a dataset in R
+
 ## Data Cleaning
 
 ```{r}
@@ -97,6 +99,8 @@ data <- data %>%
 # Cleaned data
 head(data)
 ```
+
+Delete NA data, then standardize the BMI category column
 
 ```{r}
 # Split the Blood.Pressure column into two new columns and convert to numeric
@@ -113,6 +117,8 @@ str(data)
 summary(data)
 
 ```
+
+Splitting the Blood.Pressure Column and Converting to Numeric and viewing Summary Data Statistics
 
 ```{r}
 # Function for categorizing blood pressure
@@ -137,6 +143,9 @@ data <- data %>%
 
 head(data)
 ```
+
+Defining Functions. According to the Italian Ministry of Health, Blood Pressure values ​​can be classified based on 'Systolic' and 'Diastolic' values. Based on previous research, we can identify three possible categories above.
+
 ## Data Visualization
 
 ```{r}
@@ -169,6 +178,7 @@ ggplot(age_groups, aes(x = Age.Group, y = Stress.Level, fill = Age.Group)) +
 
 ```
 
+Categorizing age into two groups, over 35 and under 35. On average, those over 35 have higher sleep duration, sleep quality and physical activity. However, those under 35 years of age have higher levels of stress than those over 35 years of age.
 
 ```{r}
 ggplot(data, aes(x = Stress.Level)) +
@@ -188,8 +198,7 @@ ggplot(data, aes(x = Sleep.Duration)) +
 
 ```
 
-
-
+The stress level has a different distribution in each plot. In the first plot, the stress level is 4 and the other is around stress level 6. In the second, the plot tends to fluctuate. Meanwhile, in the third plot, the levels tend to be close, namely around stress levels 6 and 7.
 
 ```{r}
 # Calculate mean, median, and mode
@@ -286,15 +295,15 @@ grid.arrange(age_plot, sleep_duration_plot, quality_sleep_plot, ncol = 3)
 
 **Age:**
 
-The age boxplot suggests that, on average, women in this dataset are older than men, as indicated by the higher median line for women in the box. Comparable ranges for the top and bottom of the box and the interquartile range (IQR, the height of the box) point to similar age variability for both genders. There are men and females that are both younger and older than the core age categories, according to the whiskers, which depict the dispersion of the remaining data. However, the range for females is larger, indicating greater ages.
+The box ages graph show the average age of older women; comparable ranges exist for the top and bottom of the box which shows the interquartile range (box height, IQR) to be similar in both sexes as to variability in age. However, outside the core age groups there are both younger and older men and women according to the whiskers which represent the spread of rest of the data. Nonetheless, the range is larger for women showing that they are of higher age.
 
 **Sleep Duration:**
 
-The boxplot illustrates that men have a somewhat shorter median sleep time than women. The identical IQRs for the two genders suggest that the middle 50% of people have similar sleep duration distributions. Males appear to have a significantly larger distribution of sleep time than females, as indicated by the slightly greater range for males.
+According to the boxplot, women have longer medians and shorter sleep durations than men. Women are said to spend the same portion of time between quartiles as men hence have similar durations for sleep. With the slightly larger spread in men’s sleep hours, it is likely that men have a much wider spread in sleep duration than women.
 
 **Quality of Sleep:**
 
-The median line suggests that when it comes to sleep quality, women appear to report a little greater median quality of sleep than men. For both genders, the dispersion of values (IQR) is comparable, though. Females tend to have a greater general range than males, suggesting that the quality of their sleep is more variable, with some reporting extremely good and some very low quality.
+Based on the median line, women seem to have a median sleep quality higher than that of men. However, for both genders, it should be noted that the range of values (IQR) was the same. As opposed to men, the general range of sleep tends to be higher among women, implying that they experience more variation in their sleep quality, with some having quite good sleeps while others being in bad ones.
 
 ```{r}
 # Count the number of participants in each occupation
@@ -328,11 +337,11 @@ print(quality_sleep_plot)
 
 **Occupational Distribution**:
 
-The distribution of participants among different vocations is seen in the first chart. The most common occupation is nursing, which is followed by engineering and medicine. In the sample, managers and sales reps are the least represented. This distribution may represent the true demographic composition of the pool from which participants were selected, or it may show the interest or availability of various occupations in taking part in the study.\
+The first chart shows us how many participants there are. Nursing is the most common job and it comes before engineering and medicine. Lower ranks are occupied by the least number of people who happen to be managers as well as sales representatives. This might be the actual distribution of people from which participants were chosen or a reflection on how willing certain professions were to take part in the research.
 
 **Average Quality of Sleep by Occupation**:
 
-The second graph displays the average sleep quality for various professions. Engineers seem to have the greatest average sleep quality, followed by accountants and attorneys. Conversely, scientists and sales people report the lowest average quality of sleep, which might be attributed to issues relating to their line of work or greater levels of stress related to their jobs. Despite the important importance of their work, doctors do not necessarily get better sleep than other professions, as seen by the fact that, despite their large representation in the dataset, their average sleep quality does not top the list.\
+The second graphic illustrates the average sleep quality of different professions. It shows that engineers seem to have the best average sleep quality in general. They have an average sleep quality of over 6 marks, followed by accountants and attorneys. On the other hand, scientists and sales people reports the lowest average sleep quality, which might due to the kind of work that they do, or work related stress. Despite the critical work that they do, doctors don't seem to obtain a better sleep quality compared to others, because despite constituting the largest portion of the dataset, their average sleep quality doesn't appear at the top.
 
 ```{r}
 # Count of participants by Sleep Disorder
@@ -359,7 +368,7 @@ print(avg_sleep_quality_by_disorder)
 print(sleep_quality_boxplot)
 ```
 
-
+More people have the sleep disorder sleep apnea than insomnia. However, in this plot it can be seen that most of the samples in this data do not have sleep disorders.
 
 ```{r}
 # Select only the numeric columns from the data
@@ -375,15 +384,16 @@ corrplot(cor_matrix, method = "color", type = "upper",
 
 ```
 
--   The scale on the right represents the range of correlation coefficients from -1 to 1.
+- The right scale shows the scale of correlation coefficients from -1 to 1.
 
--   A coefficient near to 1 indicates a significant positive correlation, which means that when one variable grows, so does the other.
+ - A coefficient close to 1 indicates a strong positive correlation, meaning that when one of the variables increases in value, so does the other.
+ 
+ - A coefficient of around -1 means a strong negative correlation: as one variable increases, the other usually decreases in response.
 
--   A coefficient around -1 indicates a significant negative correlation, implying that when one variable grows, the other tends to decrease.
+- A coefficient around zero indicates little or no linear association between the variables
 
--   A coefficient around zero indicates little or no linear association between the variables.
+Therefore, ‘Age’ and ‘Person.ID’ have a significant negative correlation, which is unusual and might indicate that ‘Person.ID’ is quantitatively related to age. But an ID should not be related to age at all unless it’s arbitrarily assigned by age. ‘Quality of Sleep’ and ‘Physical Activity Level’ have a significant positive correlation, so people who physically exercise more have better sleep quality. ‘Stress Level’ has a moderate positive correlation with both ‘Systolic Pressure’ and ‘Diastolic Pressure’, so more stress might be associated with higher blood pressure. ‘Daily Steps’ has a significant negative correlation with ‘Heart Rate’, so people who take more daily steps may have a lower resting heart rate, which is a marker of good cardiovascular health.  
 
-    Thus, "Age" and "Person.ID" exhibit a substantial negative connection, which is uncommon and may imply that "Person.ID" is quantitatively linked to age. However, an ID should not have any association with age unless it is arbitrarily assigned based on age. "Quality of Sleep" and "Physical Activity Level" show a significant positive link, implying that persons who engage in more physical exercise may have better sleep quality. "Stress Level" appears to have a modest positive connection with "Systolic Pressure" and "Diastolic Pressure," showing that more stress may be connected with greater blood pressure. "Daily Steps" has a substantial negative association with "Heart Rate," implying that those who take more daily steps may have a lower resting heart rate, which is an indication of excellent cardiovascular health.\
 
 ```{r}
 # Scatter plot of Sleep Duration vs Quality of Sleep
@@ -408,11 +418,12 @@ plot2
 
 **Long Rest = Good Rest**:
 
-The first figure demonstrates a favorable relationship between sleep length and sleep quality. Sleep duration increases as sleep quality scores rise, implying that those who report higher sleep quality sleep for longer periods of time. The data points are densely packed around the trend line, particularly when sleep quality improves, demonstrating a significant correlation between these two factors.\
+The first plot displays a positive association between the sleep duration and its quality. It claims that those who say that they enjoy better sleep, rest for more minutes. The plot shows a lot of points sitting close together over the line of best fit, especially for increased sleep quality levels, portraying the importance of both as connected issues.
+
 
 **More Stress = Bad Rest**:
 
-The second figure demonstrates a negative link between stress and sleep quality. As stress levels rise, the quality of sleep declines, implying that increased stress is linked to decreased sleep quality. The trend line slopes lower across the plot, and the data points, albeit slightly dispersed, follow the downward trend, confirming the negative link between stress and sleep quality.\
+Falling on the quality of sleep as stress levels go up suggests the link between increased stress and decreased sleep quality, as shown by the second figure. The quality of sleep decreases with an increase in stress, highlighting a negative relationship. As such, the trend line slants downwards along the plot while related data points though a bit scattered still affirm this notion in a graphical form.
 
 ```{r}
 # Scatter plot of Physical Activity Level vs Sleep Quality
@@ -455,34 +466,35 @@ plot6
 
 **Sleep Quality Based on Physical Activity**:
 
-There appears to be a favorable relationship between physical exercise (in minutes) and sleep quality. The sleep quality score improves with increased physical activity. The shaded region reflects the confidence interval, which indicates some uncertainty around the trend line but overall suggests that more physical activity is connected with higher sleep quality.\
+There is a positive relationship between physical activity, in minutes and sleep quality. That is, as physical activity increases so does the sleep quality score. The shaded area is the confidence interval showing a bit of uncertainty around the trend line but in general more physical activity is associated with higher sleep quality.
 
 **Sleep Duration and Age**:
 
-The graph shows a positive link between age and sleep length (in hours). Sleep duration rises with age, suggesting that older people sleep more rather than less. However, the distribution of data points indicates that there is significant variability and that other factors may possibly play a role.\
+This plot shows a positive relationship between age and sleep duration, in hours. The sleep duration is increasing with age indicating that older people sleep more rather than less. However the scattering of points shows by how much this can vary, and the extent to which other factors may be involved.
 
 **Sleep Duration and Heart Rate**:
 
-This graph indicates a negative association between heart rate and sleep duration. It suggests that a greater resting heart rate leads to shorter sleep lengths. The trend line falls as the heart rate rises, corroborating this theory.\
+This plot will help to support a negative relationship between heart rate and sleep duration. That is, the higher the heart rate, the shorter the duration of sleeping. Indeed, the trend line shows a decrease as the heart rate increases, thereby justifying this assumption.
 
 **Sleep Duration and Physical Activity**:
 
-This plot demonstrates a beneficial relationship between physical activity and sleep length. As physical activity increases, so does sleep length, supporting the title's claim that physical exercise can help you sleep longer.\
+This plot indicates that, indeed, there is a positive relationship between sleep duration and physical activity. This means the more an individual is physically active, the longer he or she is going to sleep. This graph therefore supports the argument that exercises help an individual to sleep longer.
 
 
 ```{r}
 # Scatter plot of Stress Level based on Physical Activity
 
-plot11 <- ggplot(data, aes(x = Physical.Activity.Level , y = Stress.Level)) +
+plot7 <- ggplot(data, aes(x = Physical.Activity.Level , y = Stress.Level)) +
   geom_point() +
   geom_smooth(method = lm, se = TRUE) +
   labs(title = "Physical Activity Level based on Stress Level",
        x = "Physical Activity Level",
        y = "Stress Level")
 
-plot11
+plot7
 ```
 
+This graph shows the relationship between physical activity levels and stress levels. it can be seen that there is no significant relationship between physical activity levels and stress levels, as the trend line is almost flat. This suggests that increasing or decreasing physical activity did not significantly affect stress levels in this dataset.
 
 
 ## Machine Learning
