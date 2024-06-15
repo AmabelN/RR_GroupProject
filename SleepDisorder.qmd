@@ -781,14 +781,16 @@ plot(nn)
 
 ## References
 
--   https://www.psychiatry.org/patients-families/sleep-disorders/what-are-sleep-disorders#:\~:text=Sleep%20disorders%20(or%20sleep%2Dwake,distress%20and%20impairment%20in%20functioning.
+- American Psychiatric Association. (2024, March). What are sleep disorders? Retrieved June 15, 2024, from https://www.psychiatry.org/patients-families/sleep-disorders/what-are-sleep-disorders
 
--   https://www.mayoclinic.org/diseases-conditions/insomnia/symptoms-causes/syc-20355167#:\~:text=Insomnia%20is%20a%20common%20sleep,level%20and%20affect%20your%20mood.
+- Cleveland Clinic. (2022, November 15). Sleep apnea. Retrieved June 15, 2024, from https://my.clevelandclinic.org/health/diseases/8718-sleep-apnea
 
--   https://my.clevelandclinic.org/health/diseases/8718-sleep-apnea
+- Giacometti, A. (2024, January 16). Sleep health analysis: How to sleep better. Retrieved June 15, 2024, from https://www.kaggle.com/code/alessandrogiacometti/sleep-health-analysis-how-to-sleep-better
 
--   https://www.kaggle.com/code/alessandrogiacometti/sleep-health-analysis-how-to-sleep-better
+- Mayo Clinic. (2022, November 15). Insomnia: Symptoms & causes. Retrieved June 15, 2024, from https://www.mayoclinic.org/diseases-conditions/insomnia/symptoms-causes/syc-20355167
 
--   https://www.salute.gov.it/portale/alleanzaCardioCerebrovascolari/dettaglioSchedeAlleanzaCardioCerebrovascolari.jsp?lingua=italiano&id=18&area=Alleanza%20italiana%20per%20le%20malattie%20cardio-cerebrovascolari&menu=malattie#:\~:text=Quando%20i%20valori%20pressori%20di,si%20parla%20di%20ipertensione%20arteriosa.
+- Ministero della Salute. (2022). Ipertensione arteriosa. Retrieved June 15, 2024, from https://www.salute.gov.it/portale/alleanzaCardioCerebrovascolari/dettaglioSchedeAlleanzaCardioCerebrovascolari.jsp?lingua=italiano&id=18&area=Alleanza%20italiana%20per%20le%20malattie%20cardio-cerebrovascolari&menu=malattie
+
+- OpenAI. (2024). Personal communication via ChatGPT [Personal correspondence]. June 15, 2024.
 
 ## 
