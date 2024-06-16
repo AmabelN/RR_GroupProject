@@ -51,7 +51,7 @@ This project serves as the final assignment for the Reproducible Research course
 
 -   Sleep Disorder
 
-In this research, we implemented visualizations similar to the previous research in Python into R and provided a more diverse set of machine learning models.
+In this study, we integrated visualizations from prior Python research into R and presented a more diversified range of machine learning models. Examples include Gradient Boosting Machine, Support Vector Regression, and the Neural Network Model. 
 
 ## Introduction
 
