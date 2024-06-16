@@ -21,7 +21,7 @@ By:
 
 4.  Zehra Usta (455847)
 
-    -   Machine Learning, Data Visualization and Analysis
+    -   Machine Learning, Data Visualization, and Analysis
 
 ## Project Objective
 
@@ -50,6 +50,8 @@ This project serves as the final assignment for the Reproducible Research course
 -   Daily Steps
 
 -   Sleep Disorder
+
+In this research, we implemented visualizations similar to the previous research in Python into R and provided a more diverse set of machine learning models.
 
 ## Introduction
 
