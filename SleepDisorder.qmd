@@ -508,7 +508,7 @@ plot7 <- ggplot(data, aes(x = Physical.Activity.Level , y = Stress.Level)) +
 plot7
 ```
 
-This graph shows the relationship between physical activity levels and stress levels. it can be seen that there is no significant relationship between physical activity levels and stress levels, as the trend line is almost flat. This suggests that increasing or decreasing physical activity did not significantly affect stress levels in this dataset.
+This graph shows the relationship between physical activity levels and stress levels. It can be seen that there is no significant relationship between physical activity levels and stress levels, as the trend line is almost flat. This suggests that increasing or decreasing physical activity did not significantly affect stress levels in this dataset.
 
 
 ## Machine Learning
