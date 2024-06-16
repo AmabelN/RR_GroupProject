@@ -47,6 +47,8 @@ In this study, we integrated visualizations from prior Python research into R an
 
 Libraries in the project used the versions from date = "2024-04-23" with groundhog package.
 
+For Reproducibility, Docker is used in this project. Using virtual machines ensures us to reproduce project exatly same in every computer. In the Docker Instructions.txt file instructions to reach docker container can be found,
+
 ## Usage Instructions
 
 To run this file, first download all the files. Then, render the qmd file to view its output as an HTML file. Alternatively, if you do not wish to run it in R, you can download the PDF version to see our output.
