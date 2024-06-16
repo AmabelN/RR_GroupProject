@@ -1,0 +1,42 @@
+Install Docker and run Docker Destop
+
+Create Dockerfile(no extension)
+Download or copy from repo 
+and put in the project folder(optional)
+
+
+Run in terminal:(may need to adapt Dockerfile path)
+
+
+docker build \
+    -f RR_GroupProject/Dockerfile \
+    -t rr_group_project/r2u-quarto:20.04 .
+
+Then run:
+
+docker run -it --rm rr_group_project/r2u-quarto:20.04 bash
+
+Check quarto status by running:
+
+quarto check
+
+Open new terminal window without closing first one
+
+Create Dockerfile.qmdrunner:
+Download or copy from repo
+
+
+Then run:
+
+docker build \
+    -f RR_GroupProject/Dockerfile.qmdrunner \
+    -t rr_group_project/quarto:docker-input .
+
+docker run -p 8080:8080 rr_group_project/quarto:docker-input
+
+Open your browser and go to localhost:8080
+
+Click to SleepDisorder.html to see rendered document
+
+
+Exit from container by control + C then control + D (for macOS)
