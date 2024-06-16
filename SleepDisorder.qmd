@@ -513,7 +513,7 @@ This graph shows the relationship between physical activity levels and stress le
 
 ## Machine Learning
 
-In the previous study, an OLS linear regression model was employed with finalizing result of a Naïve Training MAE of 1.05 as well as a refined model training MAE of 0.27, and a Naïve Testing MAE of 1.03 and also refined model testing MAE OF 0.31. For this study, we will adopt the OLS linear regression approach used in the prior research for comparison purposes and include other models to make our study distinctive.
+In the previous study, an OLS linear regression model was employed with finalizing result of a Naïve Training MAE of 1.05 as well as a refined model training MAE of 0.27, and a Naïve Testing MAE of 1.03 and also refined model testing MAE OF 0.31. For this study, we will adopt the OLS linear regression approach used in the prior research for comparison purposes and include other models to make our study distinctive.For example, Gradient Boosting Machine, Support Vector Regression, and Neural Network Model. 
 
 **Linear Regression**
 
