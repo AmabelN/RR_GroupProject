@@ -513,6 +513,8 @@ This graph shows the relationship between physical activity levels and stress le
 
 ## Machine Learning
 
+In the previous study, an OLS linear regression model was employed with finalizing result of a Naïve Training MAE of 1.05 as well as a refined model training MAE of 0.27, and a Naïve Testing MAE of 1.03 and also refined model testing MAE OF 0.31. For this study, we will adopt the OLS linear regression approach used in the prior research for comparison purposes and include other models to make our study distinctive.
+
 **Linear Regression**
 
 ```{r}
@@ -618,6 +620,7 @@ The similarity between Training MAE (0.27) and Testing MAE (0.31) suggests that 
 .\
 
 **Gradient Boosting Machine**
+
 In this part of the project, we implemented a Gradient Boosting Machine (GBM) model to predict the quality of sleep based on various factors such as sleep duration, age, physical activity level, stress level, heart rate, and daily steps. We began by defining a grid of hyperparameters to tune the model, including the number of trees, interaction depth, shrinkage (learning rate), and minimum observations in the terminal nodes. We set up a 5-fold cross-validation to robustly evaluate the model's performance and prevent overfitting. The data was split into training (70%) and testing (30%) sets, and the GBM model was trained using the defined hyperparameters and cross-validation settings.
 
 
