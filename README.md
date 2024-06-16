@@ -51,4 +51,4 @@ For Reproducibility, Docker is used in this project. Using virtual machines ensu
 
 ## Usage Instructions
 
-To run this file, first download all the files. Then, render the qmd file to view its output as an HTML file. Alternatively, if you do not wish to run it in R, you can download the PDF version to see our output.
+To run this file, first download all the files. Then, render the qmd file to view its output as an HTML file. 
